@@ -1,0 +1,4 @@
+Plaintext
+venv/
+.env
+__pycache__/
