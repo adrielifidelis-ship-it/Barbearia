@@ -5,16 +5,17 @@ import os
 from supabase import create_client, Client
 from dotenv import load_dotenv
 
-# 1. CARREGAR VARIÁVEIS DE AMBIENTE (.env)
+# 1. CARREGAR VARIÁVEIS DE AMBIENTE (.env LOCAL OU SECRETS NA NUVEM)
 load_dotenv()
 
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+# Tenta ler do .env local; se não encontrar, busca nos Secrets do Streamlit Cloud
+SUPABASE_URL = os.getenv("SUPABASE_URL") or st.secrets.get("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY") or st.secrets.get("SUPABASE_KEY")
 
 @st.cache_resource
 def init_supabase() -> Client:
     if not SUPABASE_URL or not SUPABASE_KEY:
-        st.error("⚠️ As chaves SUPABASE_URL e SUPABASE_KEY não foram encontradas no arquivo .env!")
+        st.error("⚠️ As chaves SUPABASE_URL e SUPABASE_KEY não foram encontradas! Configure-as no .env ou nos Secrets do Streamlit.")
         st.stop()
     return create_client(SUPABASE_URL, SUPABASE_KEY)
 
