@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia Imperial - Agendamento</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #0A0A0A; color: #E5E5E5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; justify-content: center; min-height: 100vh; padding: 20px 0; }
+        
+        .app-wrapper { display: flex; width: 100%; max-width: 1150px; background: #121212; border-radius: 12px; border: 1px solid #222; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        .sidebar { width: 260px; background-color: #161616; border-right: 1px solid #222; padding: 30px 20px; flex-shrink: 0; }
+        .sidebar-brand { font-size: 1.3rem; font-weight: bold; color: #D4AF37; margin-bottom: 35px; display: flex; align-items: center; gap: 8px; }
+        .nav-item { display: block; padding: 12px 16px; margin-bottom: 8px; border-radius: 8px; color: #AAA; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.2s; }
+        .nav-item:hover { background-color: #222; color: #FFF; }
+        .nav-item.active { background-color: #262626; color: #D4AF37; border-left: 4px solid #D4AF37; }
+
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+        h1 { font-size: 2rem; color: #D4AF37; margin-bottom: 6px; }
+        .subtitle { color: #888; margin-bottom: 30px; font-size: 0.95rem; }
+        .section-title { font-size: 1.25rem; color: #FFF; margin-bottom: 20px; font-weight: 600; border-bottom: 1px solid #262626; padding-bottom: 8px; }
+
+        label { display: block; margin-bottom: 6px; font-size: 0.85rem; color: #AAA; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select, button { width: 100%; padding: 12px 15px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #2A2A2A; background: #1A1A1A; color: #FFF; font-size: 0.95rem; }
+        input:focus, select:focus { outline: none; border-color: #D4AF37; }
+        button { background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%); color: #000; font-weight: bold; cursor: pointer; border: none; transition: opacity 0.2s; }
+        button:hover { opacity: 0.9; }
+
+        .card-agendamento { background: #1A1A1A; border: 1px solid #262626; padding: 15px; border-radius: 8px; margin-bottom: 12px; }
+        .btn-danger { background: #c0392b; color: #fff; width: auto; padding: 6px 12px; margin-right: 8px; font-size: 0.85rem; }
+        .btn-warning { background: #d35400; color: #fff; width: auto; padding: 6px 12px; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="sidebar">
+            <div class="sidebar-brand">💈 Barbearia Imperial</div>
+            <a href="/" class="nav-item active">📅 Agendamento de Serviços</a>
+            <a href="/portfolio/" class="nav-item">💈 Portfólio dos Barbeiros</a>
+            <a href="/painel/" class="nav-item">🔐 Painel do Barbeiro</a>
+        </div>
+
+        <div class="main-content">
+            <h1>💈 Faça o Seu Agendamento</h1>
+            <p class="subtitle">Escolha o serviço, selecione seu barbeiro de preferência e garanta seu horário exclusivo.</p>
+
+            <h2 class="section-title">1. Dados do Atendimento</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="acao" value="agendar">
+                
+                <label>Seu Nome Completo:</label>
+                <input type="text" name="nome" placeholder="Digite seu nome..." required>
+
+                <label>WhatsApp / Telefone de Contato:</label>
+                <input type="text" name="telefone" placeholder="(19) 99999-9999" required>
+
+                <label>Selecione o Serviço:</label>
+                <select name="servico_id">
+                    {% for s in servicos %}
+                        <option value="{{ s.id }}">{{ s.nome }} - R$ {{ s.preco }}</option>
+                    {% endfor %}
+                </select>
+
+                <label>Selecione o Barbeiro:</label>
+                <select name="barbeiro_id" id="barbeiro">
+                    {% for b in barbeiros %}
+                        <option value="{{ b.id }}">{{ b.nome }} ({{ b.especialidade }})</option>
+                    {% endfor %}
+                </select>
+
+                <label>Data do Atendimento:</label>
+                <input type="date" name="data" id="data_agendamento" required>
+
+                <label>Horário Disponível:</label>
+                <select name="horario" id="horario" required>
+                    <option value="">Selecione primeiro a data e o barbeiro</option>
+                </select>
+
+                <button type="submit">🚀 CONFIRMAR AGENDAMENTO</button>
+            </form>
+
+            <h2 class="section-title" style="margin-top: 40px;">2. Consultar ou Gerenciar Meus Agendamentos</h2>
+            <form method="GET" style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <input type="text" name="telefone_busca" value="{{ telefone_busca|default:'' }}" placeholder="Digite seu WhatsApp/Telefone..." style="margin-bottom: 0;" required>
+                <button type="submit" style="width: auto; padding: 12px 20px;">BUSCAR</button>
+            </form>
+
+            {% for a in meus_agendamentos %}
+                <div class="card-agendamento">
+                    <p><strong>Data:</strong> {{ a.data_agendamento }} às {{ a.horario }} | <strong>Status:</strong> <span style="color: #D4AF37;">{{ a.status }}</span></p>
+                    <p style="color: #AAA;">Barbeiro: {{ a.barbeiros.nome }} | Serviço: {{ a.servicos.nome }}</p>
+                    
+                    <div style="margin-top: 10px; display: flex; gap: 8px;">
+                        <!-- Cancelar -->
+                        <form method="POST" style="margin:0;">
+                            {% csrf_token %}
+                            <input type="hidden" name="acao" value="cancelar_cliente">
+                            <input type="hidden" name="agendamento_id" value="{{ a.id }}">
+                            <button type="submit" class="btn-danger">❌ Cancelar Horário</button>
+                        </form>
+
+                        <!-- Reagendar -->
+                        <button type="button" class="btn-warning" onclick="document.getElementById('reagendar-{{ a.id }}').style.display='block'">📅 Reagendar</button>
+                    </div>
+
+                    <div id="reagendar-{{ a.id }}" style="display:none; margin-top: 15px; background: #222; padding: 12px; border-radius: 6px;">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="acao" value="reagendar_cliente">
+                            <input type="hidden" name="agendamento_id" value="{{ a.id }}">
+                            <label>Nova Data:</label>
+                            <input type="date" name="nova_data" required>
+                            <label>Novo Horário:</label>
+                            <input type="text" name="novo_horario" placeholder="Ex: 14:00" required>
+                            <button type="submit">Salvar Novo Horário</button>
+                        </form>
+                    </div>
+                </div>
+            {% empty %}
+                {% if telefone_busca %}
+                    <p style="color: #666;">Nenhum agendamento encontrado para este telefone.</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        const dateInput = document.getElementById('data_agendamento');
+        const barbeiroSelect = document.getElementById('barbeiro');
+        const horarioSelect = document.getElementById('horario');
+
+        function carregarHorarios() {
+            const barbeiroId = barbeiroSelect.value;
+            const dataVal = dateInput.value;
+            if (barbeiroId && dataVal) {
+                fetch(`/api/horarios/?barbeiro_id=${barbeiroId}&data=${dataVal}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        horarioSelect.innerHTML = '';
+                        if (data.horarios.length > 0) {
+                            data.horarios.forEach(h => {
+                                const option = document.createElement('option');
+                                option.value = h;
+                                option.textContent = h;
+                                horarioSelect.appendChild(option);
+                            });
+                        } else {
+                            horarioSelect.innerHTML = '<option value="">Sem horários disponíveis para esta data</option>';
+                        }
+                    });
+            }
+        }
+        dateInput.addEventListener('change', carregarHorarios);
+        barbeiroSelect.addEventListener('change', carregarHorarios);
+    </script>
+</body>
+</html>
