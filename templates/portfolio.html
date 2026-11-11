@@ -11,7 +11,7 @@
         body { 
             background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,106,0.10), transparent 60%), linear-gradient(180deg, #081F19 0%, #04120E 100%) fixed;
             color: #EFE8DA; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Montserrat', sans-serif; 
             display: flex; 
             justify-content: center; 
             min-height: 100vh; 
@@ -29,7 +29,6 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.8); 
         }
 
-        /* Sidebar lateral */
         .sidebar { 
             width: 280px; 
             background-color: #081F19; 
@@ -49,6 +48,17 @@
             border-radius: 6px;
         }
 
+        .side-label {
+            width: 100%;
+            font-size: 0.7rem;
+            color: #C9A86A;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(201, 168, 106, 0.15);
+            padding-bottom: 4px;
+        }
+
         .nav-item { 
             display: block; 
             width: 100%;
@@ -57,9 +67,9 @@
             border-radius: 4px; 
             color: #9DB0A7; 
             text-decoration: none; 
-            font-size: 0.9rem; 
+            font-size: 0.85rem; 
             font-weight: 600; 
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             border: 1px solid rgba(201, 168, 106, 0.15);
             transition: all 0.25s ease; 
@@ -78,20 +88,28 @@
             border-left: 4px solid #C9A86A; 
         }
 
-        /* Área Central */
+        .sidebar-footer {
+            margin-top: auto;
+            color: #9DB0A7;
+            font-size: 0.75rem;
+            text-align: center;
+            line-height: 1.6;
+            border-top: 1px solid rgba(201, 168, 106, 0.2);
+            padding-top: 15px;
+            width: 100%;
+        }
+
         .main-content { 
             flex: 1; 
             padding: 40px; 
             overflow-y: auto; 
         }
 
-        /* Cabeçalho do Portfólio */
         .hero-banner {
             border: 1px solid rgba(201, 168, 106, 0.4);
-            padding: 30px;
+            padding: 25px 30px;
             background: linear-gradient(135deg, rgba(201,168,106,0.08), transparent 60%), #081F19;
             margin-bottom: 30px;
-            position: relative;
         }
 
         .hero-banner .kicker {
@@ -103,7 +121,7 @@
         }
 
         .hero-banner h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             color: #C9A86A;
             text-transform: uppercase;
             letter-spacing: 0.12em;
@@ -112,14 +130,14 @@
 
         .hero-banner p {
             color: #9DB0A7;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin-top: 6px;
         }
 
         label { 
             display: block; 
             margin-bottom: 6px; 
-            font-size: 0.8rem; 
+            font-size: 0.75rem; 
             color: #C9A86A; 
             text-transform: uppercase; 
             letter-spacing: 0.15em; 
@@ -136,12 +154,6 @@
             font-size: 0.95rem; 
         }
 
-        select:focus { 
-            outline: none; 
-            border-color: #C9A86A; 
-        }
-
-        /* Grelha de Imagens (Art Déco / Moldura Dourada) */
         .portfolio-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -185,7 +197,7 @@
 
         .legenda .nome-barbeiro {
             color: #EFE8DA;
-            font-size: 1.1rem;
+            font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             font-weight: 600;
@@ -203,26 +215,21 @@
             letter-spacing: 0.15em;
             margin-top: 6px;
         }
-
-        @media (max-width: 900px) {
-            .portfolio-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 600px) {
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="app-wrapper">
         <div class="sidebar">
             <img src="{% static 'logo_imperial.jpg' %}" alt="Barbearia Imperial" class="sidebar-logo">
-            <a href="/" class="nav-item">📅 Agendamento de Serviços</a>
+            <div class="side-label">Navegação</div>
+            <a href="/" class="nav-item">📅 Agendar Horário</a>
             <a href="/portfolio/" class="nav-item active">💈 Portfólio dos Barbeiros</a>
             <a href="/painel/" class="nav-item">🔐 Painel do Barbeiro</a>
+
+            <div class="sidebar-footer">
+                Terça a Sábado · 09:00 às 19:00<br>
+                Av. Principal, 1000 - Centro
+            </div>
         </div>
 
         <div class="main-content">

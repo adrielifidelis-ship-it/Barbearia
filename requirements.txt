@@ -1,5 +1,4 @@
-streamlit
-supabase>=2.10.0
-pandas
-pillow
+django
+supabase
 python-dotenv
+pillow

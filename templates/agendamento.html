@@ -1,111 +1,360 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barbearia Imperial - Agendamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #0A0A0A; color: #E5E5E5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; justify-content: center; min-height: 100vh; padding: 20px 0; }
         
-        .app-wrapper { display: flex; width: 100%; max-width: 1150px; background: #121212; border-radius: 12px; border: 1px solid #222; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        body { 
+            background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,106,0.10), transparent 60%), linear-gradient(180deg, #081F19 0%, #04120E 100%) fixed;
+            color: #EFE8DA; 
+            font-family: 'Montserrat', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh; 
+            padding: 30px 20px; 
+        }
         
-        .sidebar { width: 260px; background-color: #161616; border-right: 1px solid #222; padding: 30px 20px; flex-shrink: 0; }
-        .sidebar-brand { font-size: 1.3rem; font-weight: bold; color: #D4AF37; margin-bottom: 35px; display: flex; align-items: center; gap: 8px; }
-        .nav-item { display: block; padding: 12px 16px; margin-bottom: 8px; border-radius: 8px; color: #AAA; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: all 0.2s; }
-        .nav-item:hover { background-color: #222; color: #FFF; }
-        .nav-item.active { background-color: #262626; color: #D4AF37; border-left: 4px solid #D4AF37; }
+        .app-wrapper { 
+            display: flex; 
+            width: 100%; 
+            max-width: 1200px; 
+            background: #0D2A22; 
+            border-radius: 8px; 
+            border: 1px solid rgba(201, 168, 106, 0.3); 
+            overflow: hidden; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8); 
+        }
+        
+        /* Sidebar lateral fixa */
+        .sidebar { 
+            width: 280px; 
+            background-color: #081F19; 
+            border-right: 1px solid rgba(201, 168, 106, 0.2); 
+            padding: 30px 20px; 
+            flex-shrink: 0; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .sidebar-logo { 
+            width: 100%; 
+            max-width: 180px; 
+            height: auto; 
+            margin-bottom: 35px; 
+            border-radius: 6px;
+        }
 
-        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
-        h1 { font-size: 2rem; color: #D4AF37; margin-bottom: 6px; }
-        .subtitle { color: #888; margin-bottom: 30px; font-size: 0.95rem; }
-        .section-title { font-size: 1.25rem; color: #FFF; margin-bottom: 20px; font-weight: 600; border-bottom: 1px solid #262626; padding-bottom: 8px; }
+        .nav-item { 
+            display: block; 
+            width: 100%;
+            padding: 12px 16px; 
+            margin-bottom: 10px; 
+            border-radius: 4px; 
+            color: #9DB0A7; 
+            text-decoration: none; 
+            font-family: 'Antonio', sans-serif;
+            font-size: 1.1rem; 
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border: 1px solid rgba(201, 168, 106, 0.15);
+            transition: all 0.25s ease; 
+        }
+        
+        .nav-item:hover { 
+            border-color: #C9A86A; 
+            color: #EFE8DA; 
+            background: rgba(201,168,106,0.05); 
+        }
+        
+        .nav-item.active { 
+            border-color: #C9A86A; 
+            background: linear-gradient(90deg, rgba(201,168,106,0.2), rgba(201,168,106,0.05)); 
+            color: #C9A86A; 
+            border-left: 4px solid #C9A86A; 
+        }
 
-        label { display: block; margin-bottom: 6px; font-size: 0.85rem; color: #AAA; text-transform: uppercase; letter-spacing: 0.5px; }
-        input, select, button { width: 100%; padding: 12px 15px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #2A2A2A; background: #1A1A1A; color: #FFF; font-size: 0.95rem; }
-        input:focus, select:focus { outline: none; border-color: #D4AF37; }
-        button { background: linear-gradient(135deg, #D4AF37 0%, #AA820A 100%); color: #000; font-weight: bold; cursor: pointer; border: none; transition: opacity 0.2s; }
+        .sidebar-footer {
+            margin-top: auto;
+            color: #9DB0A7;
+            font-size: 0.75rem;
+            text-align: center;
+            line-height: 1.6;
+            border-top: 1px solid rgba(201, 168, 106, 0.2);
+            padding-top: 15px;
+            width: 100%;
+        }
+
+        /* Área Central */
+        .main-content { 
+            flex: 1; 
+            padding: 40px; 
+            overflow-y: auto; 
+        }
+        
+        .hero-banner {
+            border: 1px solid rgba(201, 168, 106, 0.4);
+            padding: 25px 30px;
+            background: linear-gradient(135deg, rgba(201,168,106,0.08), transparent 60%), #081F19;
+            margin-bottom: 30px;
+        }
+
+        .hero-banner .kicker {
+            color: #C9A86A;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .hero-banner h1 {
+            font-family: 'Antonio', sans-serif;
+            font-size: 2.6rem;
+            color: #C9A86A;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 300;
+        }
+
+        .hero-banner p {
+            color: #9DB0A7;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .grid-booking {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            gap: 25px;
+        }
+
+        .section-title { 
+            font-family: 'Antonio', sans-serif;
+            font-size: 1.4rem; 
+            color: #C9A86A; 
+            margin-bottom: 20px; 
+            font-weight: 400; 
+            border-bottom: 1px solid rgba(201, 168, 106, 0.2); 
+            padding-bottom: 6px; 
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        label { 
+            display: block; 
+            margin-bottom: 6px; 
+            font-size: 0.75rem; 
+            color: #C9A86A; 
+            text-transform: uppercase; 
+            letter-spacing: 0.15em; 
+        }
+        
+        input, select, button { 
+            width: 100%; 
+            padding: 12px 15px; 
+            margin-bottom: 20px; 
+            border-radius: 4px; 
+            border: 1px solid rgba(201, 168, 106, 0.25); 
+            background: #102F27; 
+            color: #EFE8DA; 
+            font-size: 0.95rem; 
+        }
+        
+        input:focus, select:focus { 
+            outline: none; 
+            border-color: #C9A86A; 
+        }
+        
+        button { 
+            background: linear-gradient(135deg, #8F7444 0%, #C9A86A 50%, #8F7444 100%); 
+            color: #04120E; 
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold; 
+            cursor: pointer; 
+            border: none; 
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: opacity 0.2s; 
+        }
+        
         button:hover { opacity: 0.9; }
 
-        .card-agendamento { background: #1A1A1A; border: 1px solid #262626; padding: 15px; border-radius: 8px; margin-bottom: 12px; }
-        .btn-danger { background: #c0392b; color: #fff; width: auto; padding: 6px 12px; margin-right: 8px; font-size: 0.85rem; }
-        .btn-warning { background: #d35400; color: #fff; width: auto; padding: 6px 12px; font-size: 0.85rem; }
+        .info-card {
+            background: #081F19;
+            border: 1px solid rgba(201, 168, 106, 0.3);
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .info-card-title {
+            font-family: 'Antonio', sans-serif;
+            color: #C9A86A;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(201, 168, 106, 0.2);
+            padding-bottom: 6px;
+        }
+
+        .info-item {
+            margin-bottom: 15px;
+        }
+
+        .info-item .rotulo {
+            font-size: 0.7rem;
+            color: #C9A86A;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .info-item .valor {
+            color: #EFE8DA;
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        .quote-box {
+            border-top: 1px solid rgba(201, 168, 106, 0.3);
+            margin-top: 20px;
+            padding-top: 15px;
+            color: #C9A86A;
+            font-style: italic;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .card-agendamento { 
+            background: #102F27; 
+            border: 1px solid rgba(201, 168, 106, 0.2); 
+            padding: 15px; 
+            border-radius: 4px; 
+            margin-bottom: 12px; 
+        }
+        
+        .btn-danger { background: #c0392b; color: #fff; width: auto; padding: 6px 12px; margin-right: 8px; font-size: 0.8rem; }
+        .btn-warning { background: #d35400; color: #fff; width: auto; padding: 6px 12px; font-size: 0.8rem; }
     </style>
 </head>
 <body>
     <div class="app-wrapper">
         <div class="sidebar">
-            <div class="sidebar-brand">💈 Barbearia Imperial</div>
-            <a href="/" class="nav-item active">📅 Agendamento de Serviços</a>
+            <!-- Tenta carregar o logo em JPG ou PNG -->
+            {% static 'logo_imperial.jpg' as logo_jpg %}
+            {% static 'logo_imperial.png' as logo_png %}
+            <img src="{{ logo_jpg }}" alt="Barbearia Imperial" class="sidebar-logo" onerror="this.onerror=null; this.src='{{ logo_png }}';">
+            
+            <a href="/" class="nav-item active">📅 Agendar Horário</a>
             <a href="/portfolio/" class="nav-item">💈 Portfólio dos Barbeiros</a>
             <a href="/painel/" class="nav-item">🔐 Painel do Barbeiro</a>
+
+            <div class="sidebar-footer">
+                Terça a Sábado · 09:00 às 19:00<br>
+                Av. Principal, 1000 - Centro
+            </div>
         </div>
 
         <div class="main-content">
-            <h1>💈 Faça o Seu Agendamento</h1>
-            <p class="subtitle">Escolha o serviço, selecione seu barbeiro de preferência e garanta seu horário exclusivo.</p>
+            <div class="hero-banner">
+                <div class="kicker">Reserve sua experiência</div>
+                <h1>Faça o Seu Agendamento</h1>
+                <p>Escolha o serviço, selecione seu barbeiro de preferência e garanta seu horário exclusivo.</p>
+            </div>
 
-            <h2 class="section-title">1. Dados do Atendimento</h2>
-            <form method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="acao" value="agendar">
-                
-                <label>Seu Nome Completo:</label>
-                <input type="text" name="nome" placeholder="Digite seu nome..." required>
+            <div class="grid-booking">
+                <div>
+                    <h2 class="section-title">I · Seus Dados e Atendimento</h2>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="acao" value="agendar">
+                        
+                        <label>Seu Nome Completo:</label>
+                        <input type="text" name="nome" placeholder="Digite seu nome..." required>
 
-                <label>WhatsApp / Telefone de Contato:</label>
-                <input type="text" name="telefone" placeholder="(19) 99999-9999" required>
+                        <label>WhatsApp / Telefone de Contato:</label>
+                        <input type="text" name="telefone" placeholder="(19) 99999-9999" required>
 
-                <label>Selecione o Serviço:</label>
-                <select name="servico_id">
-                    {% for s in servicos %}
-                        <option value="{{ s.id }}">{{ s.nome }} - R$ {{ s.preco }}</option>
-                    {% endfor %}
-                </select>
+                        <label>Selecione o Serviço:</label>
+                        <select name="servico_id">
+                            {% for s in servicos %}
+                                <option value="{{ s.id }}">{{ s.nome }} - R$ {{ s.preco }}</option>
+                            {% endfor %}
+                        </select>
 
-                <label>Selecione o Barbeiro:</label>
-                <select name="barbeiro_id" id="barbeiro">
-                    {% for b in barbeiros %}
-                        <option value="{{ b.id }}">{{ b.nome }} ({{ b.especialidade }})</option>
-                    {% endfor %}
-                </select>
+                        <label>Selecione o Barbeiro de Escolha:</label>
+                        <select name="barbeiro_id" id="barbeiro">
+                            {% for b in barbeiros %}
+                                <option value="{{ b.id }}">{{ b.nome }} ({{ b.especialidade }})</option>
+                            {% endfor %}
+                        </select>
 
-                <label>Data do Atendimento:</label>
-                <input type="date" name="data" id="data_agendamento" required>
+                        <h2 class="section-title" style="margin-top: 25px;">II · Data e Horário</h2>
 
-                <label>Horário Disponível:</label>
-                <select name="horario" id="horario" required>
-                    <option value="">Selecione primeiro a data e o barbeiro</option>
-                </select>
+                        <label>Data do Atendimento:</label>
+                        <input type="date" name="data" id="data_agendamento" required>
 
-                <button type="submit">🚀 CONFIRMAR AGENDAMENTO</button>
-            </form>
+                        <label>Horário Disponível:</label>
+                        <select name="horario" id="horario" required>
+                            <option value="">Selecione primeiro a data e o barbeiro</option>
+                        </select>
 
-            <h2 class="section-title" style="margin-top: 40px;">2. Consultar ou Gerenciar Meus Agendamentos</h2>
+                        <button type="submit">👑 CONFIRMAR AGENDAMENTO</button>
+                    </form>
+                </div>
+
+                <div>
+                    <div class="info-card">
+                        <div class="info-card-title">Barbearia Imperial</div>
+                        <div class="info-item">
+                            <div class="rotulo">📍 Endereço</div>
+                            <div class="valor">Av. Principal, 1000 - Centro</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="rotulo">🕒 Horário</div>
+                            <div class="valor">Terça a Sábado · 09:00 às 19:00</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="rotulo">📞 Contato</div>
+                            <div class="valor">(19) 99999-8888</div>
+                        </div>
+
+                        <div class="quote-box">
+                            “Tradição, precisão e o cuidado que um rei merece.”
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="margin-top: 40px;">III · Meus Agendamentos</h2>
             <form method="GET" style="display: flex; gap: 10px; margin-bottom: 20px;">
-                <input type="text" name="telefone_busca" value="{{ telefone_busca|default:'' }}" placeholder="Digite seu WhatsApp/Telefone..." style="margin-bottom: 0;" required>
+                <input type="text" name="telefone_busca" value="{{ telefone_busca|default:'' }}" placeholder="Digite seu WhatsApp/Telefone para consultar..." style="margin-bottom: 0;" required>
                 <button type="submit" style="width: auto; padding: 12px 20px;">BUSCAR</button>
             </form>
 
             {% for a in meus_agendamentos %}
                 <div class="card-agendamento">
-                    <p><strong>Data:</strong> {{ a.data_agendamento }} às {{ a.horario }} | <strong>Status:</strong> <span style="color: #D4AF37;">{{ a.status }}</span></p>
-                    <p style="color: #AAA;">Barbeiro: {{ a.barbeiros.nome }} | Serviço: {{ a.servicos.nome }}</p>
+                    <p><strong>Data:</strong> {{ a.data_agendamento }} às {{ a.horario }} | <strong>Status:</strong> <span style="color: #C9A86A;">{{ a.status }}</span></p>
+                    <p style="color: #9DB0A7;">Barbeiro: {{ a.barbeiros.nome }} | Serviço: {{ a.servicos.nome }}</p>
                     
                     <div style="margin-top: 10px; display: flex; gap: 8px;">
-                        <!-- Cancelar -->
                         <form method="POST" style="margin:0;">
                             {% csrf_token %}
                             <input type="hidden" name="acao" value="cancelar_cliente">
                             <input type="hidden" name="agendamento_id" value="{{ a.id }}">
-                            <button type="submit" class="btn-danger">❌ Cancelar Horário</button>
+                            <button type="submit" class="btn-danger">❌ Cancelar</button>
                         </form>
 
-                        <!-- Reagendar -->
                         <button type="button" class="btn-warning" onclick="document.getElementById('reagendar-{{ a.id }}').style.display='block'">📅 Reagendar</button>
                     </div>
 
-                    <div id="reagendar-{{ a.id }}" style="display:none; margin-top: 15px; background: #222; padding: 12px; border-radius: 6px;">
+                    <div id="reagendar-{{ a.id }}" style="display:none; margin-top: 15px; background: #081F19; padding: 12px; border-radius: 4px;">
                         <form method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="acao" value="reagendar_cliente">
@@ -120,7 +369,7 @@
                 </div>
             {% empty %}
                 {% if telefone_busca %}
-                    <p style="color: #666;">Nenhum agendamento encontrado para este telefone.</p>
+                    <p style="color: #9DB0A7;">Nenhum agendamento ativo encontrado para este número.</p>
                 {% endif %}
             {% endfor %}
         </div>

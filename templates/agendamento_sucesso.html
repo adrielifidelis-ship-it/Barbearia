@@ -1,22 +1,121 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Agendamento Confirmado!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia Imperial - Confirmado</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0F0F0F; color: #F5F5F5; font-family: sans-serif; text-align: center; padding: 50px; }
-        .card { background: #1A1A1A; border: 1px solid #D4AF37; padding: 30px; border-radius: 12px; display: inline-block; }
-        h1 { color: #D4AF37; }
-        a { color: #D4AF37; text-decoration: none; font-weight: bold; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,106,0.10), transparent 60%), linear-gradient(180deg, #081F19 0%, #04120E 100%) fixed;
+            color: #EFE8DA; 
+            font-family: 'Montserrat', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh; 
+            padding: 20px; 
+        }
+
+        .sucesso-card {
+            width: 100%;
+            max-width: 550px;
+            background: #0D2A22;
+            border: 1px solid rgba(201, 168, 106, 0.4);
+            border-radius: 8px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            position: relative;
+        }
+
+        .sucesso-card::before {
+            content: "";
+            position: absolute;
+            inset: 6px;
+            border: 1px solid rgba(201, 168, 106, 0.2);
+            pointer-events: none;
+        }
+
+        .logo-sucesso {
+            width: 140px;
+            height: auto;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-family: 'Antonio', sans-serif;
+            color: #C9A86A;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #9DB0A7;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .destaque {
+            color: #EFE8DA;
+            font-weight: 600;
+        }
+
+        .info-reserva {
+            background: #081F19;
+            border: 1px solid rgba(201, 168, 106, 0.25);
+            padding: 15px;
+            margin: 25px 0;
+            border-radius: 4px;
+            color: #C9A86A;
+            font-family: 'Antonio', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+        }
+
+        a.btn-voltar {
+            display: inline-block;
+            background: linear-gradient(135deg, #8F7444 0%, #C9A86A 50%, #8F7444 100%);
+            color: #04120E;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: opacity 0.2s;
+        }
+
+        a.btn-voltar:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>🎉 Agendamento Confirmado!</h1>
-        <p>Obrigado, <strong>{{ nome }}</strong>!</p>
-        <p>Seu horário está reservado para o dia <strong>{{ data }}</strong> às <strong>{{ horario }}</strong>.</p>
-        <br>
-        <a href="/">Voltar ao Início</a>
+    <div class="sucesso-card">
+        {% static 'logo_imperial.jpg' as logo_url %}
+        <img src="{{ logo_url }}" alt="Barbearia Imperial" class="logo-sucesso" onerror="this.style.display='none'">
+        
+        <h1>👑 Agendamento Confirmado!</h1>
+        <p>Obrigado, <span class="destaque">{{ nome }}</span>!</p>
+        
+        <div class="info-reserva">
+            {{ data }} às {{ horario }}
+        </div>
+
+        <p style="font-size: 0.85rem; margin-bottom: 25px;">Seu horário foi reservado com sucesso no nosso sistema.</p>
+
+        <a href="/" class="btn-voltar">Voltar ao Início</a>
     </div>
 </body>
 </html>
