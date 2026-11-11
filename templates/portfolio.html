@@ -1,49 +1,264 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barbearia Imperial - Portfólio</title>
     <style>
-        body { background-color: #0F0F0F; color: #F5F5F5; font-family: 'Segoe UI', sans-serif; padding: 20px; }
-        h1 { color: #D4AF37; }
-        nav { margin-bottom: 25px; text-align: center; }
-        nav a { color: #D4AF37; margin: 0 15px; text-decoration: none; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
-        .card { background: #1A1A1A; border: 1px solid #333; padding: 15px; border-radius: 8px; }
-        .card img { width: 100%; border-radius: 6px; height: 200px; object-fit: cover; }
-        select { padding: 10px; background: #222; color: #fff; border: 1px solid #444; border-radius: 6px; margin-bottom: 20px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { 
+            background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,106,0.10), transparent 60%), linear-gradient(180deg, #081F19 0%, #04120E 100%) fixed;
+            color: #EFE8DA; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh; 
+            padding: 30px 20px; 
+        }
+
+        .app-wrapper { 
+            display: flex; 
+            width: 100%; 
+            max-width: 1200px; 
+            background: #0D2A22; 
+            border-radius: 8px; 
+            border: 1px solid rgba(201, 168, 106, 0.3); 
+            overflow: hidden; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8); 
+        }
+
+        /* Sidebar lateral */
+        .sidebar { 
+            width: 280px; 
+            background-color: #081F19; 
+            border-right: 1px solid rgba(201, 168, 106, 0.2); 
+            padding: 30px 20px; 
+            flex-shrink: 0; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sidebar-logo { 
+            width: 100%; 
+            max-width: 180px; 
+            height: auto; 
+            margin-bottom: 30px; 
+            border-radius: 6px;
+        }
+
+        .nav-item { 
+            display: block; 
+            width: 100%;
+            padding: 12px 16px; 
+            margin-bottom: 8px; 
+            border-radius: 4px; 
+            color: #9DB0A7; 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border: 1px solid rgba(201, 168, 106, 0.15);
+            transition: all 0.25s ease; 
+        }
+
+        .nav-item:hover { 
+            border-color: #C9A86A; 
+            color: #EFE8DA; 
+            background: rgba(201,168,106,0.05); 
+        }
+
+        .nav-item.active { 
+            border-color: #C9A86A; 
+            background: linear-gradient(90deg, rgba(201,168,106,0.2), rgba(201,168,106,0.05)); 
+            color: #C9A86A; 
+            border-left: 4px solid #C9A86A; 
+        }
+
+        /* Área Central */
+        .main-content { 
+            flex: 1; 
+            padding: 40px; 
+            overflow-y: auto; 
+        }
+
+        /* Cabeçalho do Portfólio */
+        .hero-banner {
+            border: 1px solid rgba(201, 168, 106, 0.4);
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(201,168,106,0.08), transparent 60%), #081F19;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .hero-banner .kicker {
+            color: #C9A86A;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .hero-banner h1 {
+            font-size: 2.2rem;
+            color: #C9A86A;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 300;
+        }
+
+        .hero-banner p {
+            color: #9DB0A7;
+            font-size: 0.95rem;
+            margin-top: 6px;
+        }
+
+        label { 
+            display: block; 
+            margin-bottom: 6px; 
+            font-size: 0.8rem; 
+            color: #C9A86A; 
+            text-transform: uppercase; 
+            letter-spacing: 0.15em; 
+        }
+
+        select { 
+            width: 100%; 
+            padding: 12px 15px; 
+            margin-bottom: 30px; 
+            border-radius: 4px; 
+            border: 1px solid rgba(201, 168, 106, 0.25); 
+            background: #102F27; 
+            color: #EFE8DA; 
+            font-size: 0.95rem; 
+        }
+
+        select:focus { 
+            outline: none; 
+            border-color: #C9A86A; 
+        }
+
+        /* Grelha de Imagens (Art Déco / Moldura Dourada) */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .portfolio-card {
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .img-container {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            border: 1px solid rgba(201, 168, 106, 0.4);
+            padding: 6px;
+            background: #081F19;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .img-container:hover img {
+            transform: scale(1.03);
+        }
+
+        .legenda {
+            border-bottom: 1px solid rgba(201, 168, 106, 0.2);
+            padding-bottom: 12px;
+        }
+
+        .legenda .nome-barbeiro {
+            color: #EFE8DA;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .legenda .nome-servico {
+            color: #9DB0A7;
+            font-size: 0.85rem;
+            margin-top: 3px;
+        }
+
+        .legenda .data-corte {
+            color: rgba(201, 168, 106, 0.7);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 900px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="/">📅 Agendamento</a>
-        <a href="/portfolio/">💈 Portfólio</a>
-        <a href="/painel/">🔐 Painel do Barbeiro</a>
-    </nav>
+    <div class="app-wrapper">
+        <div class="sidebar">
+            <img src="{% static 'logo_imperial.jpg' %}" alt="Barbearia Imperial" class="sidebar-logo">
+            <a href="/" class="nav-item">📅 Agendamento de Serviços</a>
+            <a href="/portfolio/" class="nav-item active">💈 Portfólio dos Barbeiros</a>
+            <a href="/painel/" class="nav-item">🔐 Painel do Barbeiro</a>
+        </div>
 
-    <h1>💈 Portfólio de Cortes</h1>
-
-    <form method="GET">
-        <label>Filtrar por Barbeiro:</label>
-        <select name="barbeiro_id" onchange="this.form.submit()">
-            <option value="todos">Todos os Barbeiros</option>
-            {% for b in barbeiros %}
-                <option value="{{ b.id }}" {% if barbeiro_selecionado == b.id|stringformat:"s" %}selected{% endif %}>{{ b.nome }}</option>
-            {% endfor %}
-        </select>
-    </form>
-
-    <div class="grid">
-        {% for c in cortes %}
-            <div class="card">
-                <img src="{{ c.foto_corte_url }}" alt="Foto do Corte">
-                <p><strong>Barbeiro:</strong> {{ c.barbeiros.nome }}</p>
-                <p><strong>Serviço:</strong> {{ c.servicos.nome }}</p>
-                <small>Data: {{ c.data_agendamento }}</small>
+        <div class="main-content">
+            <div class="hero-banner">
+                <div class="kicker">Galeria Imperial</div>
+                <h1>Portfólio dos Barbeiros</h1>
+                <p>Selecione um profissional da nossa equipe para visualizar a galeria de cortes realizados.</p>
             </div>
-        {% empty %}
-            <p>Nenhum corte publicado no portfólio até o momento.</p>
-        {% endfor %}
+
+            <form method="GET">
+                <label>SELECIONE O BARBEIRO DE ESCOLHA:</label>
+                <select name="barbeiro_id" onchange="this.form.submit()">
+                    <option value="todos">Todos os Barbeiros</option>
+                    {% for b in barbeiros %}
+                        <option value="{{ b.id }}" {% if barbeiro_selecionado == b.id|stringformat:"s" %}selected{% endif %}>{{ b.nome }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            <div class="portfolio-grid">
+                {% for c in cortes %}
+                    <div class="portfolio-card">
+                        <div class="img-container">
+                            <img src="{{ c.foto_corte_url }}" alt="Foto do Corte">
+                        </div>
+                        <div class="legenda">
+                            <div class="nome-barbeiro">{{ c.barbeiros.nome }}</div>
+                            <div class="nome-servico">{{ c.servicos.nome }}</div>
+                            <div class="data-corte">{{ c.data_agendamento }}</div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p style="color: #9DB0A7; grid-column: span 3;">Nenhum corte publicado no portfólio para este filtro até o momento.</p>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </body>
 </html>
