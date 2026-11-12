@@ -1,271 +1,348 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barbearia Imperial - Portfólio</title>
+    <title>Barbearia Imperial - Portfólio dos Barbeiros</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body { 
-            background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,106,0.10), transparent 60%), linear-gradient(180deg, #081F19 0%, #04120E 100%) fixed;
-            color: #EFE8DA; 
-            font-family: 'Montserrat', sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            min-height: 100vh; 
-            padding: 30px 20px; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .app-wrapper { 
-            display: flex; 
-            width: 100%; 
-            max-width: 1200px; 
-            background: #0D2A22; 
-            border-radius: 8px; 
-            border: 1px solid rgba(201, 168, 106, 0.3); 
-            overflow: hidden; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8); 
+        body {
+            background-color: #091e1a;
+            color: #e8e6e1;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            min-height: 100vh;
         }
 
-        .sidebar { 
-            width: 280px; 
-            background-color: #081F19; 
-            border-right: 1px solid rgba(201, 168, 106, 0.2); 
-            padding: 30px 20px; 
-            flex-shrink: 0; 
+        /* Barra Superior Mobile */
+        .mobile-header {
+            display: none;
+            background-color: #061411;
+            border-bottom: 1px solid #d4af37;
+            padding: 14px 20px;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1001;
+        }
+
+        .mobile-brand {
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .btn-menu-mobile {
+            background-color: transparent;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 8px 14px;
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-menu-mobile:hover {
+            background-color: #d4af37;
+            color: #091e1a;
+        }
+
+        /* Sidebar Lateral */
+        .sidebar {
+            width: 280px;
+            background-color: #061411;
+            border-right: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 35px 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 1000;
         }
 
-        .sidebar-logo { 
-            width: 100%; 
-            max-width: 180px; 
-            height: auto; 
-            margin-bottom: 30px; 
-            border-radius: 6px;
-        }
-
-        .side-label {
-            width: 100%;
-            font-size: 0.7rem;
-            color: #C9A86A;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            border-bottom: 1px solid rgba(201, 168, 106, 0.15);
-            padding-bottom: 4px;
-        }
-
-        .nav-item { 
-            display: block; 
-            width: 100%;
-            padding: 12px 16px; 
-            margin-bottom: 8px; 
-            border-radius: 4px; 
-            color: #9DB0A7; 
-            text-decoration: none; 
-            font-size: 0.85rem; 
-            font-weight: 600; 
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            border: 1px solid rgba(201, 168, 106, 0.15);
-            transition: all 0.25s ease; 
-        }
-
-        .nav-item:hover { 
-            border-color: #C9A86A; 
-            color: #EFE8DA; 
-            background: rgba(201,168,106,0.05); 
-        }
-
-        .nav-item.active { 
-            border-color: #C9A86A; 
-            background: linear-gradient(90deg, rgba(201,168,106,0.2), rgba(201,168,106,0.05)); 
-            color: #C9A86A; 
-            border-left: 4px solid #C9A86A; 
-        }
-
-        .sidebar-footer {
-            margin-top: auto;
-            color: #9DB0A7;
-            font-size: 0.75rem;
+        .logo-container {
             text-align: center;
-            line-height: 1.6;
-            border-top: 1px solid rgba(201, 168, 106, 0.2);
-            padding-top: 15px;
+            margin-bottom: 40px;
+        }
+
+        .logo-container img {
+            width: 150px;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .nav-links {
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        .main-content { 
-            flex: 1; 
-            padding: 40px; 
-            overflow-y: auto; 
+        .nav-links a {
+            text-decoration: none;
+            color: #e8e6e1;
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            padding: 14px 18px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            text-align: center;
+            transition: all 0.3s ease;
         }
 
-        .hero-banner {
-            border: 1px solid rgba(201, 168, 106, 0.4);
-            padding: 25px 30px;
-            background: linear-gradient(135deg, rgba(201,168,106,0.08), transparent 60%), #081F19;
-            margin-bottom: 30px;
+        .nav-links a:hover, .nav-links a.active {
+            background-color: #d4af37;
+            color: #091e1a;
+            font-weight: 700;
+            border-color: #d4af37;
         }
 
-        .hero-banner .kicker {
-            color: #C9A86A;
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
+        /* Conteúdo Principal */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px 50px;
+        }
+
+        .subtitle {
+            color: #d4af37;
+            font-size: 11px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             margin-bottom: 8px;
         }
 
-        .hero-banner h1 {
-            font-size: 2rem;
-            color: #C9A86A;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            font-weight: 300;
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: #ffffff;
+            font-size: 32px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
         }
 
-        .hero-banner p {
-            color: #9DB0A7;
-            font-size: 0.9rem;
-            margin-top: 6px;
+        .description {
+            color: #a8b5b2;
+            font-size: 14px;
+            margin-bottom: 35px;
         }
 
-        label { 
-            display: block; 
-            margin-bottom: 6px; 
-            font-size: 0.75rem; 
-            color: #C9A86A; 
-            text-transform: uppercase; 
-            letter-spacing: 0.15em; 
-        }
-
-        select { 
-            width: 100%; 
-            padding: 12px 15px; 
-            margin-bottom: 30px; 
-            border-radius: 4px; 
-            border: 1px solid rgba(201, 168, 106, 0.25); 
-            background: #102F27; 
-            color: #EFE8DA; 
-            font-size: 0.95rem; 
-        }
-
-        .portfolio-grid {
+        .barbers-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
         }
 
-        .portfolio-card {
-            background: transparent;
+        .barber-card {
+            background-color: #0d2823;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            padding: 30px;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+            transition: 0.3s;
         }
 
-        .img-container {
-            width: 100%;
-            aspect-ratio: 4 / 5;
-            border: 1px solid rgba(201, 168, 106, 0.4);
-            padding: 6px;
-            background: #081F19;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            margin-bottom: 15px;
-            overflow: hidden;
+        .barber-card:hover {
+            border-color: #d4af37;
+            transform: translateY(-4px);
         }
 
-        .img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 2px;
-            display: block;
-            transition: transform 0.3s ease;
-        }
-
-        .img-container:hover img {
-            transform: scale(1.03);
-        }
-
-        .legenda {
-            border-bottom: 1px solid rgba(201, 168, 106, 0.2);
-            padding-bottom: 12px;
-        }
-
-        .legenda .nome-barbeiro {
-            color: #EFE8DA;
-            font-size: 1rem;
+        .barber-badge {
+            display: inline-block;
+            color: #d4af37;
+            font-size: 11px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 600;
+            margin-bottom: 10px;
         }
 
-        .legenda .nome-servico {
-            color: #9DB0A7;
-            font-size: 0.85rem;
-            margin-top: 3px;
+        .barber-card h2 {
+            font-family: 'Cinzel', serif;
+            color: #ffffff;
+            font-size: 22px;
+            margin-bottom: 12px;
         }
 
-        .legenda .data-corte {
-            color: rgba(201, 168, 106, 0.7);
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            margin-top: 6px;
+        .barber-card p {
+            color: #cfd8d6;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .specialties {
+            list-style: none;
+            margin-bottom: 25px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            padding-top: 15px;
+        }
+
+        .specialties li {
+            font-size: 12px;
+            color: #a8b5b2;
+            margin-bottom: 6px;
+        }
+
+        .specialties li::before {
+            content: "✦ ";
+            color: #d4af37;
+        }
+
+        .btn-book {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            background-color: #d4af37;
+            color: #091e1a;
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            padding: 13px;
+            transition: 0.3s;
+        }
+
+        .btn-book:hover {
+            background-color: #e5c358;
+        }
+
+        /* Responsividade Mobile */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .sidebar {
+                display: none;
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 2px solid #d4af37;
+                padding: 25px 20px;
+            }
+
+            .sidebar.aberto {
+                display: flex;
+            }
+
+            .logo-container {
+                margin-bottom: 20px;
+            }
+
+            .logo-container img {
+                width: 110px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 25px 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="app-wrapper">
-        <div class="sidebar">
-            <img src="{% static 'logo_imperial.jpg' %}" alt="Barbearia Imperial" class="sidebar-logo">
-            <div class="side-label">Navegação</div>
-            <a href="/" class="nav-item">📅 Agendar Horário</a>
-            <a href="/portfolio/" class="nav-item active">💈 Portfólio dos Barbeiros</a>
-            <a href="/painel/" class="nav-item">🔐 Painel do Barbeiro</a>
 
-            <div class="sidebar-footer">
-                Terça a Sábado · 09:00 às 19:00<br>
-                Av. Principal, 1000 - Centro
-            </div>
-        </div>
-
-        <div class="main-content">
-            <div class="hero-banner">
-                <div class="kicker">Galeria Imperial</div>
-                <h1>Portfólio dos Barbeiros</h1>
-                <p>Selecione um profissional da nossa equipe para visualizar a galeria de cortes realizados.</p>
-            </div>
-
-            <form method="GET">
-                <label>SELECIONE O BARBEIRO DE ESCOLHA:</label>
-                <select name="barbeiro_id" onchange="this.form.submit()">
-                    <option value="todos">Todos os Barbeiros</option>
-                    {% for b in barbeiros %}
-                        <option value="{{ b.id }}" {% if barbeiro_selecionado == b.id|stringformat:"s" %}selected{% endif %}>{{ b.nome }}</option>
-                    {% endfor %}
-                </select>
-            </form>
-
-            <div class="portfolio-grid">
-                {% for c in cortes %}
-                    <div class="portfolio-card">
-                        <div class="img-container">
-                            <img src="{{ c.foto_corte_url }}" alt="Foto do Corte">
-                        </div>
-                        <div class="legenda">
-                            <div class="nome-barbeiro">{{ c.barbeiros.nome }}</div>
-                            <div class="nome-servico">{{ c.servicos.nome }}</div>
-                            <div class="data-corte">{{ c.data_agendamento }}</div>
-                        </div>
-                    </div>
-                {% empty %}
-                    <p style="color: #9DB0A7; grid-column: span 3;">Nenhum corte publicado no portfólio para este filtro até o momento.</p>
-                {% endfor %}
-            </div>
-        </div>
+    <!-- Barra Mobile Recolhível -->
+    <div class="mobile-header">
+        <span class="mobile-brand">BARBEARIA IMPERIAL</span>
+        <button type="button" class="btn-menu-mobile" id="btnMenuMobile" onclick="toggleMenu()">☰ MENU</button>
     </div>
+
+    <!-- Menu Lateral -->
+    <aside class="sidebar" id="sidebarMenu">
+        <div class="logo-container">
+            <img src="/static/logo_imperial.jpg" alt="Barbearia Imperial">
+        </div>
+        <nav class="nav-links">
+            <a href="/">AGENDAR HORÁRIO</a>
+            <a href="/portfolio/" class="active">PORTFÓLIO DOS BARBEIROS</a>
+            <a href="/painel/">PAINEL DO BARBEIRO</a>
+        </nav>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <p class="subtitle">NOSSA EQUIPE DE ESPECIALISTAS</p>
+        <h1>PORTFÓLIO DOS BARBEIROS</h1>
+        <p class="description">Conheça os profissionais da Barbearia Imperial e suas especialidades.</p>
+
+        <div class="barbers-grid">
+            <div class="barber-card">
+                <div>
+                    <span class="barber-badge">MASTER BARBER</span>
+                    <h2>Caio Prado</h2>
+                    <p>Especialista em cortes clássicos na tesoura e ritual tradicional de barba terapia com toalha quente e óleos essenciais.</p>
+                    <ul class="specialties">
+                        <li>Corte Clássico & Executivo</li>
+                        <li>Barba Terapia Tradicional</li>
+                        <li>Acabamento na Navalha</li>
+                    </ul>
+                </div>
+                <a href="/" class="btn-book">AGENDAR COM CAIO</a>
+            </div>
+
+            <div class="barber-card">
+                <div>
+                    <span class="barber-badge">ESPECIALISTA EM VISAGISMO</span>
+                    <h2>Gabriel Hermes</h2>
+                    <p>Referência em transições limpas, fade navalhado e consultoria de visagismo para harmonizar corte e formato do rosto.</p>
+                    <ul class="specialties">
+                        <li>Skin Fade / Degradê Navalhado</li>
+                        <li>Consultoria de Visagismo</li>
+                        <li>Design de Sobrancelha Masculina</li>
+                    </ul>
+                </div>
+                <a href="/" class="btn-book">AGENDAR COM GABRIEL</a>
+            </div>
+
+            <div class="barber-card">
+                <div>
+                    <span class="barber-badge">ESTILO & PRECISÃO</span>
+                    <h2>Lucas Mendes</h2>
+                    <p>Focado em cortes contemporâneos, texturização e camuflagem natural de fios brancos com acabamento impecável.</p>
+                    <ul class="specialties">
+                        <li>Cortes Modernos & Texturizados</li>
+                        <li>Pigmentação & Camuflagem</li>
+                        <li>Alinhamento de Barba</li>
+                    </ul>
+                </div>
+                <a href="/" class="btn-book">AGENDAR COM LUCAS</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const btn = document.getElementById('btnMenuMobile');
+            sidebar.classList.toggle('aberto');
+            btn.innerHTML = sidebar.classList.contains('aberto') ? '✕ FECHAR' : '☰ MENU';
+        }
+    </script>
 </body>
 </html>

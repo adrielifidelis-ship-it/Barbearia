@@ -1,327 +1,316 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barbearia Imperial - Painel</title>
+    <title>Barbearia Imperial - Painel do Barbeiro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body { 
-            background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,106,0.10), transparent 60%), linear-gradient(180deg, #081F19 0%, #04120E 100%) fixed;
-            color: #EFE8DA; 
-            font-family: 'Montserrat', sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            min-height: 100vh; 
-            padding: 30px 20px; 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .app-wrapper { 
-            display: flex; 
-            width: 100%; 
-            max-width: 1200px; 
-            background: #0D2A22; 
-            border-radius: 8px; 
-            border: 1px solid rgba(201, 168, 106, 0.3); 
-            overflow: hidden; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8); 
+        body {
+            background-color: #091e1a;
+            color: #e8e6e1;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            min-height: 100vh;
         }
 
-        .sidebar { 
-            width: 280px; 
-            background-color: #081F19; 
-            border-right: 1px solid rgba(201, 168, 106, 0.2); 
-            padding: 30px 20px; 
-            flex-shrink: 0; 
+        /* Barra Superior Mobile */
+        .mobile-header {
+            display: none;
+            background-color: #061411;
+            border-bottom: 1px solid #d4af37;
+            padding: 14px 20px;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1001;
+        }
+
+        .mobile-brand {
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .btn-menu-mobile {
+            background-color: transparent;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 8px 14px;
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-menu-mobile:hover {
+            background-color: #d4af37;
+            color: #091e1a;
+        }
+
+        /* Sidebar Lateral */
+        .sidebar {
+            width: 280px;
+            background-color: #061411;
+            border-right: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 35px 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 1000;
         }
 
-        .sidebar-logo { 
-            width: 100%; 
-            max-width: 180px; 
-            height: auto; 
-            margin-bottom: 30px; 
-            border-radius: 6px;
-        }
-
-        .side-label {
-            width: 100%;
-            font-size: 0.7rem;
-            color: #C9A86A;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            border-bottom: 1px solid rgba(201, 168, 106, 0.15);
-            padding-bottom: 4px;
-        }
-
-        .nav-item { 
-            display: block; 
-            width: 100%;
-            padding: 12px 16px; 
-            margin-bottom: 8px; 
-            border-radius: 4px; 
-            color: #9DB0A7; 
-            text-decoration: none; 
-            font-size: 0.85rem; 
-            font-weight: 600; 
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            border: 1px solid rgba(201, 168, 106, 0.15);
-            transition: all 0.25s ease; 
-        }
-
-        .nav-item:hover { 
-            border-color: #C9A86A; 
-            color: #EFE8DA; 
-            background: rgba(201,168,106,0.05); 
-        }
-
-        .nav-item.active { 
-            border-color: #C9A86A; 
-            background: linear-gradient(90deg, rgba(201,168,106,0.2), rgba(201,168,106,0.05)); 
-            color: #C9A86A; 
-            border-left: 4px solid #C9A86A; 
-        }
-
-        .sidebar-footer {
-            margin-top: auto;
-            color: #9DB0A7;
-            font-size: 0.75rem;
+        .logo-container {
             text-align: center;
-            line-height: 1.6;
-            border-top: 1px solid rgba(201, 168, 106, 0.2);
-            padding-top: 15px;
+            margin-bottom: 40px;
+        }
+
+        .logo-container img {
+            width: 150px;
+            height: auto;
+            border-radius: 6px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .nav-links {
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        .main-content { 
-            flex: 1; 
-            padding: 40px; 
-            overflow-y: auto; 
+        .nav-links a {
+            text-decoration: none;
+            color: #e8e6e1;
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            padding: 14px 18px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            text-align: center;
+            transition: all 0.3s ease;
         }
 
-        .hero-banner {
-            border: 1px solid rgba(201, 168, 106, 0.4);
-            padding: 25px 30px;
-            background: linear-gradient(135deg, rgba(201,168,106,0.08), transparent 60%), #081F19;
-            margin-bottom: 30px;
+        .nav-links a:hover, .nav-links a.active {
+            background-color: #d4af37;
+            color: #091e1a;
+            font-weight: 700;
+            border-color: #d4af37;
         }
 
-        .hero-banner .kicker {
-            color: #C9A86A;
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
+        /* Conteúdo Principal */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px 50px;
+        }
+
+        .subtitle {
+            color: #d4af37;
+            font-size: 11px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             margin-bottom: 8px;
         }
 
-        .hero-banner h1 {
-            font-size: 2rem;
-            color: #C9A86A;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            font-weight: 300;
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: #ffffff;
+            font-size: 32px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
         }
 
-        label { 
-            display: block; 
-            margin-bottom: 6px; 
-            font-size: 0.75rem; 
-            color: #C9A86A; 
-            text-transform: uppercase; 
-            letter-spacing: 0.15em; 
+        .description {
+            color: #a8b5b2;
+            font-size: 14px;
+            margin-bottom: 30px;
         }
 
-        input, select, button { 
-            width: 100%; 
-            padding: 12px 15px; 
-            margin-bottom: 20px; 
-            border-radius: 4px; 
-            border: 1px solid rgba(201, 168, 106, 0.25); 
-            background: #102F27; 
-            color: #EFE8DA; 
-            font-size: 0.95rem; 
+        .table-container {
+            background-color: #0d2823;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            overflow-x: auto;
         }
 
-        button { 
-            background: linear-gradient(135deg, #8F7444 0%, #C9A86A 50%, #8F7444 100%); 
-            color: #04120E; 
-            font-weight: bold; 
-            cursor: pointer; 
-            border: none; 
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
         }
 
-        .filter-bar {
-            background: #081F19;
-            padding: 15px;
-            border: 1px solid rgba(201, 168, 106, 0.2);
-            margin-bottom: 25px;
-            display: flex;
-            gap: 15px;
-            align-items: flex-end;
+        th {
+            background-color: #061411;
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-align: left;
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.4);
         }
 
-        .item-agenda {
-            background: #102F27;
-            border: 1px solid rgba(201, 168, 106, 0.2);
-            border-left: 4px solid #C9A86A;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 4px;
+        td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            font-size: 13px;
+            color: #e8e6e1;
         }
 
-        .btn-group { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-        .btn-success { background: #27ae60; color: #fff; width: auto; padding: 8px 14px; font-size: 0.8rem; }
-        .btn-danger { background: #c0392b; color: #fff; width: auto; padding: 8px 14px; font-size: 0.8rem; }
-        .btn-warning { background: #d35400; color: #fff; width: auto; padding: 8px 14px; font-size: 0.8rem; }
-        .btn-info { background: #2980b9; color: #fff; width: auto; padding: 8px 14px; font-size: 0.8rem; }
+        tr:hover {
+            background-color: rgba(212, 175, 55, 0.05);
+        }
+
+        .btn-cancel {
+            display: inline-block;
+            padding: 7px 14px;
+            background-color: transparent;
+            border: 1px solid #dc3545;
+            color: #ff7b88;
+            text-decoration: none;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+
+        .empty-msg {
+            padding: 40px;
+            text-align: center;
+            color: #a8b5b2;
+            font-size: 14px;
+        }
+
+        /* Responsividade Mobile */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .sidebar {
+                display: none;
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 2px solid #d4af37;
+                padding: 25px 20px;
+            }
+
+            .sidebar.aberto {
+                display: flex;
+            }
+
+            .logo-container {
+                margin-bottom: 20px;
+            }
+
+            .logo-container img {
+                width: 110px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 25px 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="app-wrapper">
-        <div class="sidebar">
-            <img src="{% static 'logo_imperial.jpg' %}" alt="Barbearia Imperial" class="sidebar-logo">
-            <div class="side-label">Navegação</div>
-            <a href="/" class="nav-item">📅 Agendar Horário</a>
-            <a href="/portfolio/" class="nav-item">💈 Portfólio dos Barbeiros</a>
-            <a href="/painel/" class="nav-item active">🔐 Painel do Barbeiro</a>
 
-            <div class="sidebar-footer">
-                Terça a Sábado · 09:00 às 19:00<br>
-                Av. Principal, 1000 - Centro
-            </div>
+    <!-- Barra Mobile Recolhível -->
+    <div class="mobile-header">
+        <span class="mobile-brand">BARBEARIA IMPERIAL</span>
+        <button type="button" class="btn-menu-mobile" id="btnMenuMobile" onclick="toggleMenu()">☰ MENU</button>
+    </div>
+
+    <!-- Menu Lateral -->
+    <aside class="sidebar" id="sidebarMenu">
+        <div class="logo-container">
+            <img src="/static/logo_imperial.jpg" alt="Barbearia Imperial">
         </div>
+        <nav class="nav-links">
+            <a href="/">AGENDAR HORÁRIO</a>
+            <a href="/portfolio/">PORTFÓLIO DOS BARBEIROS</a>
+            <a href="/painel/" class="active">PAINEL DO BARBEIRO</a>
+        </nav>
+    </aside>
 
-        <div class="main-content">
-            <div class="hero-banner">
-                <div class="kicker">Área Restrita</div>
-                <h1>Painel do Barbeiro</h1>
-            </div>
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <p class="subtitle">GESTÃO DE AGENDA</p>
+        <h1>PAINEL DO BARBEIRO</h1>
+        <p class="description">Acompanhe os horários agendados e gerencie os atendimentos em tempo real.</p>
 
-            {% if not barbeiro_logado %}
-                <form method="POST">
-                    {% csrf_token %}
-                    <label>Selecione seu Nome:</label>
-                    <select name="barbeiro_id" required>
-                        {% for b in barbeiros %}
-                            <option value="{{ b.id }}">{{ b.nome }}</option>
+        <div class="table-container">
+            {% if agendamentos %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DATA</th>
+                            <th>HORÁRIO</th>
+                            <th>CLIENTE</th>
+                            <th>WHATSAPP</th>
+                            <th>SERVIÇO</th>
+                            <th>BARBEIRO</th>
+                            <th>AÇÃO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in agendamentos %}
+                        <tr>
+                            <td>{{ item.data }}</td>
+                            <td><strong>{{ item.horario }}</strong></td>
+                            <td>{{ item.cliente_nome }}</td>
+                            <td>{{ item.cliente_telefone }}</td>
+                            <td>{{ item.servico }}</td>
+                            <td>{{ item.barbeiro }}</td>
+                            <td>
+                                <a href="/cancelar/{{ item.id }}/" class="btn-cancel" onclick="return confirm('Deseja cancelar este agendamento?')">Cancelar</a>
+                            </td>
+                        </tr>
                         {% endfor %}
-                    </select>
-
-                    <label>Senha / PIN (Padrão: 123456):</label>
-                    <input type="password" name="pin" required>
-
-                    {% if erro_pin %}
-                        <p style="color:#ff5555; margin-bottom:15px;">❌ PIN incorreto! Tente 123456.</p>
-                    {% endif %}
-
-                    <button type="submit">ENTRAR NO PAINEL</button>
-                </form>
+                    </tbody>
+                </table>
             {% else %}
-                <h2 style="color:#C9A86A; margin-bottom: 15px;">Bem-vindo, {{ barbeiro_logado.nome }}!</h2>
-
-                <form method="POST" class="filter-bar">
-                    {% csrf_token %}
-                    <input type="hidden" name="barbeiro_id" value="{{ barbeiro_logado.id }}">
-                    <input type="hidden" name="pin" value="{{ barbeiro_logado.pin_acesso }}">
-                    <div style="flex:1;">
-                        <label>📅 Filtrar por Data:</label>
-                        <input type="date" name="data_filtro" value="{{ data_filtro }}" style="margin-bottom:0;" required>
-                    </div>
-                    <button type="submit" style="width: auto; padding: 12px 20px;">FILTRAR</button>
-                </form>
-
-                <h3 style="margin-bottom: 20px; color: #9DB0A7;">Agenda do Dia: <strong>{{ data_filtro }}</strong></h3>
-
-                {% for a in agendamentos %}
-                    <div class="item-agenda">
-                        <p style="font-size: 1.05rem; margin-bottom: 6px;">
-                            <strong style="color: #C9A86A;">{{ a.horario }}</strong> - <strong>{{ a.cliente_nome }}</strong> ({{ a.cliente_telefone }})
-                        </p>
-                        <p style="color: #9DB0A7;">Serviço: {{ a.servicos.nome }} | Status: <strong>{{ a.status }}</strong></p>
-
-                        <div class="btn-group">
-                            {% if a.status == 'AGENDADO' or a.status == 'REAGENDADO' %}
-                                <form method="POST" style="margin:0;">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="barbeiro_id" value="{{ barbeiro_logado.id }}">
-                                    <input type="hidden" name="pin" value="{{ barbeiro_logado.pin_acesso }}">
-                                    <input type="hidden" name="agendamento_id" value="{{ a.id }}">
-                                    <input type="hidden" name="data_filtro" value="{{ data_filtro }}">
-                                    <input type="hidden" name="acao" value="aceitar">
-                                    <button type="submit" class="btn-success">✅ Aceitar</button>
-                                </form>
-                            {% endif %}
-
-                            {% if a.status == 'ACEITO' %}
-                                <form method="POST" style="margin:0;">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="barbeiro_id" value="{{ barbeiro_logado.id }}">
-                                    <input type="hidden" name="pin" value="{{ barbeiro_logado.pin_acesso }}">
-                                    <input type="hidden" name="agendamento_id" value="{{ a.id }}">
-                                    <input type="hidden" name="data_filtro" value="{{ data_filtro }}">
-                                    <input type="hidden" name="acao" value="iniciar">
-                                    <button type="submit" class="btn-info">▶️ Iniciar Atendimento</button>
-                                </form>
-                            {% endif %}
-
-                            {% if a.status != 'FINALIZADO' and a.status != 'CANCELADO' %}
-                                <form method="POST" style="margin:0;">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="barbeiro_id" value="{{ barbeiro_logado.id }}">
-                                    <input type="hidden" name="pin" value="{{ barbeiro_logado.pin_acesso }}">
-                                    <input type="hidden" name="agendamento_id" value="{{ a.id }}">
-                                    <input type="hidden" name="data_filtro" value="{{ data_filtro }}">
-                                    <input type="hidden" name="acao" value="cancelar">
-                                    <button type="submit" class="btn-danger">❌ Cancelar</button>
-                                </form>
-
-                                <button type="button" class="btn-warning" onclick="document.getElementById('reagendar-barbeiro-{{ a.id }}').style.display='block'">📅 Reagendar</button>
-                            {% endif %}
-                        </div>
-
-                        <div id="reagendar-barbeiro-{{ a.id }}" style="display:none; margin-top: 15px; background: #081F19; padding: 15px; border-radius: 4px;">
-                            <form method="POST">
-                                {% csrf_token %}
-                                <input type="hidden" name="barbeiro_id" value="{{ barbeiro_logado.id }}">
-                                <input type="hidden" name="pin" value="{{ barbeiro_logado.pin_acesso }}">
-                                <input type="hidden" name="agendamento_id" value="{{ a.id }}">
-                                <input type="hidden" name="data_filtro" value="{{ data_filtro }}">
-                                <input type="hidden" name="acao" value="reagendar">
-                                <label>Nova Data:</label>
-                                <input type="date" name="nova_data" required>
-                                <label>Novo Horário:</label>
-                                <input type="text" name="novo_horario" placeholder="Ex: 15:30" required>
-                                <button type="submit" class="btn-success">Confirmar Reagendamento</button>
-                            </form>
-                        </div>
-
-                        {% if a.status == 'EM ANDAMENTO' %}
-                            <form method="POST" enctype="multipart/form-data" style="margin-top: 15px;">
-                                {% csrf_token %}
-                                <input type="hidden" name="barbeiro_id" value="{{ barbeiro_logado.id }}">
-                                <input type="hidden" name="pin" value="{{ barbeiro_logado.pin_acesso }}">
-                                <input type="hidden" name="agendamento_id" value="{{ a.id }}">
-                                <input type="hidden" name="data_filtro" value="{{ data_filtro }}">
-                                <input type="hidden" name="acao" value="finalizar">
-                                <label>Foto do Resultado (Portfólio):</label>
-                                <input type="file" name="foto" accept="image/*" required>
-                                <button type="submit" class="btn-success">✅ Finalizar & Publicar Foto</button>
-                            </form>
-                        {% endif %}
-                    </div>
-                {% empty %}
-                    <p style="color: #9DB0A7;">Nenhum agendamento para esta data.</p>
-                {% endfor %}
+                <div class="empty-msg">Nenhum agendamento registrado até o momento.</div>
             {% endif %}
         </div>
-    </div>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebarMenu');
+            const btn = document.getElementById('btnMenuMobile');
+            sidebar.classList.toggle('aberto');
+            btn.innerHTML = sidebar.classList.contains('aberto') ? '✕ FECHAR' : '☰ MENU';
+        }
+    </script>
 </body>
 </html>
