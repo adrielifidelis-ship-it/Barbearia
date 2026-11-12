@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Barbearia Imperial - Agendamento</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -12,54 +12,52 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
             background-color: #091e1a;
             color: #e8e6e1;
             font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
             display: flex;
             min-height: 100vh;
         }
 
-        /* Barra Superior Mobile */
         .mobile-header {
             display: none;
+            width: 100%;
             background-color: #061411;
             border-bottom: 1px solid #d4af37;
-            padding: 14px 20px;
+            padding: 12px 16px;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
-            z-index: 1001;
+            z-index: 9999;
         }
 
         .mobile-brand {
             font-family: 'Cinzel', serif;
             color: #d4af37;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
         }
 
         .btn-menu-mobile {
-            background-color: transparent;
-            color: #d4af37;
-            border: 1px solid #d4af37;
+            background-color: #d4af37;
+            color: #091e1a;
+            border: none;
             padding: 8px 14px;
             font-family: 'Cinzel', serif;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        .btn-menu-mobile:hover {
-            background-color: #d4af37;
-            color: #091e1a;
-        }
-
-        /* Sidebar Lateral */
         .sidebar {
             width: 280px;
             background-color: #061411;
@@ -77,11 +75,11 @@
 
         .logo-container {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
         .logo-container img {
-            width: 150px;
+            width: 140px;
             height: auto;
             border-radius: 6px;
             border: 1px solid rgba(212, 175, 55, 0.4);
@@ -91,7 +89,7 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .nav-links a {
@@ -100,20 +98,18 @@
             font-family: 'Cinzel', serif;
             font-size: 13px;
             letter-spacing: 1.5px;
-            padding: 14px 18px;
+            padding: 13px 16px;
             border: 1px solid rgba(212, 175, 55, 0.3);
             text-align: center;
-            transition: all 0.3s ease;
+            transition: 0.3s;
         }
 
         .nav-links a:hover, .nav-links a.active {
             background-color: #d4af37;
             color: #091e1a;
             font-weight: 700;
-            border-color: #d4af37;
         }
 
-        /* Conteúdo Principal */
         .main-content {
             margin-left: 280px;
             flex: 1;
@@ -121,19 +117,21 @@
             display: flex;
             gap: 40px;
             align-items: flex-start;
+            width: calc(100% - 280px);
         }
 
         .booking-section {
             flex: 2;
             background-color: #0d2823;
             border: 1px solid rgba(212, 175, 55, 0.35);
-            padding: 40px;
+            padding: 35px;
+            width: 100%;
         }
 
         .subtitle {
             color: #d4af37;
             font-size: 11px;
-            letter-spacing: 3px;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
             margin-bottom: 8px;
         }
@@ -141,187 +139,150 @@
         h1 {
             font-family: 'Cinzel', serif;
             color: #ffffff;
-            font-size: 32px;
-            letter-spacing: 2px;
+            font-size: 28px;
+            letter-spacing: 1.5px;
             margin-bottom: 10px;
         }
 
         .description {
             color: #a8b5b2;
             font-size: 13px;
-            margin-bottom: 30px;
-            line-height: 1.6;
+            margin-bottom: 25px;
+            line-height: 1.5;
         }
 
         .section-title {
             font-family: 'Cinzel', serif;
             color: #d4af37;
-            font-size: 14px;
-            letter-spacing: 2px;
+            font-size: 13px;
+            letter-spacing: 1.5px;
             border-bottom: 1px solid rgba(212, 175, 55, 0.3);
             padding-bottom: 8px;
-            margin: 25px 0 20px 0;
+            margin: 22px 0 18px 0;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
             font-size: 11px;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             color: #d4af37;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         input, select {
             width: 100%;
-            padding: 13px 15px;
+            padding: 12px 14px;
             background-color: #061411;
             border: 1px solid rgba(212, 175, 55, 0.4);
             color: #ffffff;
             font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             outline: none;
         }
 
-        input:focus, select:focus {
-            border-color: #d4af37;
-        }
-
         .btn-submit {
+            display: block;
             width: 100%;
-            padding: 16px;
+            padding: 15px;
             background-color: #d4af37;
             color: #091e1a;
             font-family: 'Cinzel', serif;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             border: none;
+            text-align: center;
             cursor: pointer;
             margin-top: 15px;
-            transition: 0.3s;
         }
 
-        .btn-submit:hover {
-            background-color: #e5c358;
-        }
-
-        /* Card Lateral de Informações */
         .info-card {
             flex: 1;
             background-color: #061411;
             border: 1px solid rgba(212, 175, 55, 0.35);
-            padding: 35px 30px;
+            padding: 30px 25px;
             text-align: center;
+            width: 100%;
         }
 
         .info-card h2 {
             font-family: 'Cinzel', serif;
             color: #d4af37;
-            font-size: 20px;
+            font-size: 18px;
             letter-spacing: 2px;
-            margin-bottom: 25px;
-        }
-
-        .info-item {
-            margin-bottom: 22px;
-        }
-
-        .info-item h4 {
-            font-size: 11px;
-            color: #d4af37;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-
-        .info-item p {
-            font-size: 13px;
-            color: #cfd8d6;
-            line-height: 1.5;
-        }
-
-        .quote {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(212, 175, 55, 0.25);
-            font-style: italic;
-            font-size: 12px;
-            color: #a8b5b2;
-        }
-
-        .alert-error {
-            background-color: rgba(220, 53, 69, 0.2);
-            border: 1px solid #dc3545;
-            color: #ff8a93;
-            padding: 12px 15px;
             margin-bottom: 20px;
-            font-size: 13px;
         }
 
-        /* Responsividade Mobile */
-        @media (max-width: 900px) {
+        .info-item { margin-bottom: 18px; }
+        .info-item h4 { font-size: 11px; color: #d4af37; letter-spacing: 1.5px; margin-bottom: 4px; }
+        .info-item p { font-size: 13px; color: #cfd8d6; line-height: 1.4; }
+        .quote { margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(212, 175, 55, 0.25); font-style: italic; font-size: 12px; color: #a8b5b2; }
+        .alert-error { background-color: rgba(220, 53, 69, 0.2); border: 1px solid #dc3545; color: #ff8a93; padding: 12px; margin-bottom: 15px; font-size: 13px; }
+
+        @media screen and (max-width: 1024px) {
             body {
-                flex-direction: column;
+                flex-direction: column !important;
+                display: block !important;
             }
 
             .mobile-header {
-                display: flex;
+                display: flex !important;
             }
 
             .sidebar {
-                display: none;
-                position: relative;
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 2px solid #d4af37;
-                padding: 25px 20px;
+                display: none !important;
+                position: static !important;
+                width: 100% !important;
+                height: auto !important;
+                border-right: none !important;
+                border-bottom: 2px solid #d4af37 !important;
+                padding: 20px 15px !important;
             }
 
             .sidebar.aberto {
-                display: flex;
+                display: flex !important;
             }
 
             .logo-container {
-                margin-bottom: 20px;
+                margin-bottom: 15px !important;
             }
 
             .logo-container img {
-                width: 110px;
+                width: 90px !important;
             }
 
             .main-content {
-                margin-left: 0;
-                padding: 20px 15px;
-                flex-direction: column;
-                gap: 25px;
+                margin-left: 0 !important;
+                width: 100% !important;
+                padding: 15px !important;
+                flex-direction: column !important;
+                display: flex !important;
+                gap: 20px !important;
             }
 
             .booking-section, .info-card {
-                width: 100%;
-                padding: 25px 20px;
+                padding: 20px 15px !important;
+                width: 100% !important;
             }
 
             h1 {
-                font-size: 24px;
+                font-size: 22px !important;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Barra Mobile Recolhível -->
     <div class="mobile-header">
         <span class="mobile-brand">BARBEARIA IMPERIAL</span>
         <button type="button" class="btn-menu-mobile" id="btnMenuMobile" onclick="toggleMenu()">☰ MENU</button>
     </div>
 
-    <!-- Menu Lateral -->
     <aside class="sidebar" id="sidebarMenu">
         <div class="logo-container">
             <img src="/static/logo_imperial.jpg" alt="Barbearia Imperial">
@@ -333,7 +294,6 @@
         </nav>
     </aside>
 
-    <!-- Conteúdo Principal -->
     <main class="main-content">
         <section class="booking-section">
             <p class="subtitle">RESERVE SUA EXPERIÊNCIA</p>
