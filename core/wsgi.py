@@ -5,5 +5,5 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
 application = get_wsgi_application()
 
-# Ponto de entrada obrigatorio para a Vercel
+# Alias obrigatorio exigido pelo executor Serverless Python da Vercel
 app = application
