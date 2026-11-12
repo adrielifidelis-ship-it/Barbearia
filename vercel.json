@@ -4,9 +4,17 @@
     {
       "src": "core/wsgi.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "barbearia/static/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/barbearia/static/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "core/wsgi.py"
