@@ -2,262 +2,39 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barbearia Imperial - Portfólio dos Barbeiros</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            max-width: 100vw;
-            overflow-x: hidden;
-            background-color: #091e1a;
-            color: #e8e6e1;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        body {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .mobile-header {
-            display: none;
-            width: 100%;
-            background-color: #061411;
-            border-bottom: 1px solid #d4af37;
-            padding: 12px 16px;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 9999;
-        }
-
-        .mobile-brand {
-            font-family: 'Cinzel', serif;
-            color: #d4af37;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-        }
-
-        .btn-menu-mobile {
-            background-color: #d4af37;
-            color: #091e1a;
-            border: none;
-            padding: 8px 14px;
-            font-family: 'Cinzel', serif;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            cursor: pointer;
-        }
-
-        .sidebar {
-            width: 280px;
-            background-color: #061411;
-            border-right: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 35px 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo-container {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .logo-container img {
-            width: 140px;
-            height: auto;
-            border-radius: 6px;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-        }
-
-        .nav-links {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #e8e6e1;
-            font-family: 'Cinzel', serif;
-            font-size: 13px;
-            letter-spacing: 1.5px;
-            padding: 13px 16px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            background-color: #d4af37;
-            color: #091e1a;
-            font-weight: 700;
-        }
-
-        .main-content {
-            margin-left: 280px;
-            flex: 1;
-            padding: 40px 50px;
-            width: calc(100% - 280px);
-        }
-
-        .subtitle {
-            color: #d4af37;
-            font-size: 11px;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        h1 {
-            font-family: 'Cinzel', serif;
-            color: #ffffff;
-            font-size: 28px;
-            letter-spacing: 1.5px;
-            margin-bottom: 10px;
-        }
-
-        .description {
-            color: #a8b5b2;
-            font-size: 13px;
-            margin-bottom: 30px;
-        }
-
-        .barbers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
-
-        .barber-card {
-            background-color: #0d2823;
-            border: 1px solid rgba(212, 175, 55, 0.35);
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .barber-badge {
-            color: #d4af37;
-            font-size: 11px;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .barber-card h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .barber-card p {
-            font-size: 13px;
-            color: #cfd8d6;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .specialties {
-            list-style: none;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
-            padding-top: 12px;
-            margin-bottom: 15px;
-        }
-
-        .specialties li {
-            font-size: 12px;
-            color: #a8b5b2;
-            margin-bottom: 5px;
-        }
-
-        .specialties li::before {
-            content: "✦ ";
-            color: #d4af37;
-        }
-
-        .btn-book {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            background-color: #d4af37;
-            color: #091e1a;
-            font-family: 'Cinzel', serif;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-align: center;
-            text-decoration: none;
-        }
-
-        @media screen and (max-width: 1024px) {
-            body {
-                flex-direction: column !important;
-                display: block !important;
-            }
-
-            .mobile-header {
-                display: flex !important;
-            }
-
-            .sidebar {
-                display: none !important;
-                position: static !important;
-                width: 100% !important;
-                height: auto !important;
-                border-right: none !important;
-                border-bottom: 2px solid #d4af37 !important;
-                padding: 20px 15px !important;
-            }
-
-            .sidebar.aberto {
-                display: flex !important;
-            }
-
-            .logo-container {
-                margin-bottom: 15px !important;
-            }
-
-            .logo-container img {
-                width: 90px !important;
-            }
-
-            .main-content {
-                margin-left: 0 !important;
-                width: 100% !important;
-                padding: 20px 15px !important;
-            }
-
-            h1 {
-                font-size: 22px !important;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #091e1a; color: #e8e6e1; font-family: 'Montserrat', sans-serif; display: flex; min-height: 100vh; overflow-x: hidden; }
+        .sidebar { width: 260px; background-color: #061411; border-right: 1px solid rgba(212, 175, 55, 0.4); padding: 35px 20px; display: flex; flex-direction: column; align-items: center; position: fixed; height: 100vh; left: 0; top: 0; z-index: 2000; transition: transform 0.3s ease; }
+        .sidebar.recolhido { transform: translateX(-260px); }
+        .btn-seta { position: fixed; top: 15px; left: 260px; width: 38px; height: 44px; background-color: #d4af37; color: #091e1a; border: none; border-radius: 0 6px 6px 0; font-size: 18px; font-weight: bold; cursor: pointer; z-index: 2001; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 10px rgba(0,0,0,0.5); transition: left 0.3s ease; }
+        .sidebar.recolhido + .btn-seta { left: 0; }
+        .logo-container { text-align: center; margin-bottom: 35px; }
+        .logo-container img { width: 140px; height: auto; border-radius: 6px; border: 1px solid rgba(212, 175, 55, 0.4); }
+        .nav-links { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+        .nav-links a { text-decoration: none; color: #e8e6e1; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 1.5px; padding: 13px 15px; border: 1px solid rgba(212, 175, 55, 0.3); text-align: center; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { background-color: #d4af37; color: #091e1a; font-weight: 700; }
+        .main-content { margin-left: 260px; flex: 1; padding: 40px 45px; transition: margin-left 0.3s ease; width: 100%; }
+        .main-content.expandido { margin-left: 0; padding-top: 65px; }
+        .subtitle { color: #d4af37; font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 8px; }
+        h1 { font-family: 'Cinzel', serif; color: #ffffff; font-size: 28px; letter-spacing: 1.5px; margin-bottom: 10px; }
+        .description { color: #a8b5b2; font-size: 13px; margin-bottom: 30px; }
+        .barbers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; width: 100%; }
+        .barber-card { background-color: #0d2823; border: 1px solid rgba(212, 175, 55, 0.35); padding: 25px; display: flex; flex-direction: column; justify-content: space-between; }
+        .barber-badge { color: #d4af37; font-size: 11px; letter-spacing: 2px; margin-bottom: 8px; display: block; }
+        .barber-card h2 { font-family: 'Cinzel', serif; font-size: 20px; margin-bottom: 10px; }
+        .barber-card p { font-size: 13px; color: #cfd8d6; line-height: 1.5; margin-bottom: 15px; }
+        .specialties { list-style: none; border-top: 1px solid rgba(212, 175, 55, 0.2); padding-top: 12px; margin-bottom: 15px; }
+        .specialties li { font-size: 12px; color: #a8b5b2; margin-bottom: 5px; }
+        .specialties li::before { content: "✦ "; color: #d4af37; }
+        .btn-book { display: block; width: 100%; padding: 14px; background-color: #d4af37; color: #091e1a; font-family: 'Cinzel', serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-align: center; text-decoration: none; }
+        @media (max-width: 900px) { .main-content { padding: 65px 15px 25px 15px; } h1 { font-size: 22px; } }
     </style>
 </head>
 <body>
-
-    <div class="mobile-header">
-        <span class="mobile-brand">BARBEARIA IMPERIAL</span>
-        <button type="button" class="btn-menu-mobile" id="btnMenuMobile" onclick="toggleMenu()">☰ MENU</button>
-    </div>
 
     <aside class="sidebar" id="sidebarMenu">
         <div class="logo-container">
@@ -270,7 +47,9 @@
         </nav>
     </aside>
 
-    <main class="main-content">
+    <button type="button" class="btn-seta" id="btnSeta" onclick="alternarMenu()" title="Recolher/Expandir Menu">◀</button>
+
+    <main class="main-content" id="mainContent">
         <p class="subtitle">NOSSA EQUIPE DE ESPECIALISTAS</p>
         <h1>PORTFÓLIO DOS BARBEIROS</h1>
         <p class="description">Conheça os profissionais da Barbearia Imperial e suas especialidades.</p>
@@ -321,11 +100,20 @@
     </main>
 
     <script>
-        function toggleMenu() {
-            const sidebar = document.getElementById('sidebarMenu');
-            const btn = document.getElementById('btnMenuMobile');
-            sidebar.classList.toggle('aberto');
-            btn.innerHTML = sidebar.classList.contains('aberto') ? '✕ FECHAR' : '☰ MENU';
+        const sidebar = document.getElementById('sidebarMenu');
+        const main = document.getElementById('mainContent');
+        const seta = document.getElementById('btnSeta');
+
+        function alternarMenu() {
+            sidebar.classList.toggle('recolhido');
+            main.classList.toggle('expandido');
+            seta.innerHTML = sidebar.classList.contains('recolhido') ? '▶' : '◀';
+        }
+
+        if (window.innerWidth <= 900 || /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+            sidebar.classList.add('recolhido');
+            main.classList.add('expandido');
+            seta.innerHTML = '▶';
         }
     </script>
 </body>

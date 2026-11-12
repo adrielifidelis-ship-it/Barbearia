@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barbearia Imperial - Agendamento</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -12,57 +12,21 @@
             box-sizing: border-box;
         }
 
-        html, body {
-            max-width: 100vw;
-            overflow-x: hidden;
+        body {
             background-color: #091e1a;
             color: #e8e6e1;
             font-family: 'Montserrat', sans-serif;
-        }
-
-        body {
             display: flex;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .mobile-header {
-            display: none;
-            width: 100%;
-            background-color: #061411;
-            border-bottom: 1px solid #d4af37;
-            padding: 12px 16px;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 9999;
-        }
-
-        .mobile-brand {
-            font-family: 'Cinzel', serif;
-            color: #d4af37;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-        }
-
-        .btn-menu-mobile {
-            background-color: #d4af37;
-            color: #091e1a;
-            border: none;
-            padding: 8px 14px;
-            font-family: 'Cinzel', serif;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            cursor: pointer;
-        }
-
+        /* Sidebar Lateral com Transição */
         .sidebar {
-            width: 280px;
+            width: 260px;
             background-color: #061411;
-            border-right: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 35px 25px;
+            border-right: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 35px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -70,7 +34,39 @@
             height: 100vh;
             left: 0;
             top: 0;
-            z-index: 1000;
+            z-index: 2000;
+            transition: transform 0.3s ease;
+        }
+
+        /* Estado Recolhido */
+        .sidebar.recolhido {
+            transform: translateX(-260px);
+        }
+
+        /* Botão Setinha Fixo na Borda do Menu */
+        .btn-seta {
+            position: fixed;
+            top: 15px;
+            left: 260px;
+            width: 38px;
+            height: 44px;
+            background-color: #d4af37;
+            color: #091e1a;
+            border: none;
+            border-radius: 0 6px 6px 0;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            transition: left 0.3s ease;
+        }
+
+        .sidebar.recolhido + .btn-seta {
+            left: 0;
         }
 
         .logo-container {
@@ -98,7 +94,7 @@
             font-family: 'Cinzel', serif;
             font-size: 13px;
             letter-spacing: 1.5px;
-            padding: 13px 16px;
+            padding: 13px 15px;
             border: 1px solid rgba(212, 175, 55, 0.3);
             text-align: center;
             transition: 0.3s;
@@ -110,14 +106,21 @@
             font-weight: 700;
         }
 
+        /* Conteúdo Principal */
         .main-content {
-            margin-left: 280px;
+            margin-left: 260px;
             flex: 1;
-            padding: 40px 50px;
+            padding: 40px 45px;
             display: flex;
-            gap: 40px;
+            gap: 35px;
             align-items: flex-start;
-            width: calc(100% - 280px);
+            transition: margin-left 0.3s ease;
+            width: 100%;
+        }
+
+        .main-content.expandido {
+            margin-left: 0;
+            padding-top: 65px;
         }
 
         .booking-section {
@@ -224,64 +227,20 @@
         .quote { margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(212, 175, 55, 0.25); font-style: italic; font-size: 12px; color: #a8b5b2; }
         .alert-error { background-color: rgba(220, 53, 69, 0.2); border: 1px solid #dc3545; color: #ff8a93; padding: 12px; margin-bottom: 15px; font-size: 13px; }
 
-        @media screen and (max-width: 1024px) {
-            body {
-                flex-direction: column !important;
-                display: block !important;
-            }
-
-            .mobile-header {
-                display: flex !important;
-            }
-
-            .sidebar {
-                display: none !important;
-                position: static !important;
-                width: 100% !important;
-                height: auto !important;
-                border-right: none !important;
-                border-bottom: 2px solid #d4af37 !important;
-                padding: 20px 15px !important;
-            }
-
-            .sidebar.aberto {
-                display: flex !important;
-            }
-
-            .logo-container {
-                margin-bottom: 15px !important;
-            }
-
-            .logo-container img {
-                width: 90px !important;
-            }
-
+        @media (max-width: 900px) {
             .main-content {
-                margin-left: 0 !important;
-                width: 100% !important;
-                padding: 15px !important;
-                flex-direction: column !important;
-                display: flex !important;
-                gap: 20px !important;
+                flex-direction: column;
+                padding: 65px 15px 25px 15px;
+                gap: 20px;
             }
-
             .booking-section, .info-card {
-                padding: 20px 15px !important;
-                width: 100% !important;
+                padding: 20px 15px;
             }
-
-            h1 {
-                font-size: 22px !important;
-            }
+            h1 { font-size: 22px; }
         }
     </style>
 </head>
 <body>
-
-    <div class="mobile-header">
-        <span class="mobile-brand">BARBEARIA IMPERIAL</span>
-        <button type="button" class="btn-menu-mobile" id="btnMenuMobile" onclick="toggleMenu()">☰ MENU</button>
-    </div>
 
     <aside class="sidebar" id="sidebarMenu">
         <div class="logo-container">
@@ -294,7 +253,9 @@
         </nav>
     </aside>
 
-    <main class="main-content">
+    <button type="button" class="btn-seta" id="btnSeta" onclick="alternarMenu()" title="Recolher/Expandir Menu">◀</button>
+
+    <main class="main-content" id="mainContent">
         <section class="booking-section">
             <p class="subtitle">RESERVE SUA EXPERIÊNCIA</p>
             <h1>FAÇA O SEU AGENDAMENTO</h1>
@@ -368,34 +329,38 @@
 
         <aside class="info-card">
             <h2>BARBEARIA IMPERIAL</h2>
-
             <div class="info-item">
                 <h4>LOCALIZAÇÃO</h4>
                 <p>Av. Principal, 1500 - Centro<br>Campinas - SP</p>
             </div>
-
             <div class="info-item">
                 <h4>HORÁRIO DE FUNCIONAMENTO</h4>
                 <p>Terça a Sábado: 09:00 às 19:00<br>Domingo e Segunda: Fechado</p>
             </div>
-
             <div class="info-item">
                 <h4>ATENDIMENTO VIP</h4>
                 <p>(19) 99999-9999</p>
             </div>
-
-            <div class="quote">
-                "Tradição, precisão e cuidado em cada detalhe."
-            </div>
+            <div class="quote">"Tradição, precisão e cuidado em cada detalhe."</div>
         </aside>
     </main>
 
     <script>
-        function toggleMenu() {
-            const sidebar = document.getElementById('sidebarMenu');
-            const btn = document.getElementById('btnMenuMobile');
-            sidebar.classList.toggle('aberto');
-            btn.innerHTML = sidebar.classList.contains('aberto') ? '✕ FECHAR' : '☰ MENU';
+        const sidebar = document.getElementById('sidebarMenu');
+        const main = document.getElementById('mainContent');
+        const seta = document.getElementById('btnSeta');
+
+        function alternarMenu() {
+            sidebar.classList.toggle('recolhido');
+            main.classList.toggle('expandido');
+            seta.innerHTML = sidebar.classList.contains('recolhido') ? '▶' : '◀';
+        }
+
+        // Inicia recolhido automaticamente em telas de celular
+        if (window.innerWidth <= 900 || /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+            sidebar.classList.add('recolhido');
+            main.classList.add('expandido');
+            seta.innerHTML = '▶';
         }
     </script>
 </body>
