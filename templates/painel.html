@@ -27,6 +27,7 @@
             border: 1px solid rgba(201, 168, 106, 0.3); 
             overflow: hidden; 
             box-shadow: 0 20px 40px rgba(0,0,0,0.8); 
+            position: relative;
         }
 
         .sidebar { 
@@ -38,6 +39,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: all 0.3s ease;
         }
 
         .sidebar-logo { 
@@ -182,11 +184,56 @@
         .btn-danger { background: #c0392b; color: #fff; width: auto; padding: 8px 14px; font-size: 0.8rem; }
         .btn-warning { background: #d35400; color: #fff; width: auto; padding: 8px 14px; font-size: 0.8rem; }
         .btn-info { background: #2980b9; color: #fff; width: auto; padding: 8px 14px; font-size: 0.8rem; }
+
+        /* Setinha para recolher/expandir menu */
+        .btn-seta-menu {
+            position: fixed;
+            top: 14px;
+            left: 0;
+            width: 40px;
+            height: 44px;
+            padding: 0;
+            margin: 0;
+            border-radius: 0 8px 8px 0;
+            background: #C9A86A;
+            color: #04120E;
+            font-size: 16px;
+            font-weight: bold;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+        }
+
+        .sidebar.recolhida {
+            display: none !important;
+        }
+
+        @media (max-width: 900px) {
+            body { padding: 0; }
+            .app-wrapper { border-radius: 0; border: none; min-height: 100vh; }
+            .btn-seta-menu { display: flex; }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 9998;
+                box-shadow: 5px 0 25px rgba(0,0,0,0.9);
+            }
+            .main-content { padding: 65px 16px 30px 16px; width: 100%; }
+            .hero-banner { padding: 18px 16px; }
+            .hero-banner h1 { font-size: 1.6rem; }
+            .filter-bar { flex-direction: column; align-items: stretch; }
+        }
     </style>
 </head>
 <body>
+    <button type="button" class="btn-seta-menu" id="btnSetaMenu" onclick="alternarMenu()" title="Expandir/Recolher Menu">◀</button>
+
     <div class="app-wrapper">
-        <div class="sidebar">
+        <div class="sidebar" id="sidebarMenu">
             <img src="{% static 'logo_imperial.jpg' %}" alt="Barbearia Imperial" class="sidebar-logo">
             <div class="side-label">Navegação</div>
             <a href="/" class="nav-item">📅 Agendar Horário</a>
@@ -235,7 +282,7 @@
                         <label>📅 Filtrar por Data:</label>
                         <input type="date" name="data_filtro" value="{{ data_filtro }}" style="margin-bottom:0;" required>
                     </div>
-                    <button type="submit" style="width: auto; padding: 12px 20px;">FILTRAR</button>
+                    <button type="submit" style="width: auto; padding: 12px 20px; margin-bottom:0;">FILTRAR</button>
                 </form>
 
                 <h3 style="margin-bottom: 20px; color: #9DB0A7;">Agenda do Dia: <strong>{{ data_filtro }}</strong></h3>
@@ -323,5 +370,22 @@
             {% endif %}
         </div>
     </div>
+
+    <script>
+        const sidebarMenu = document.getElementById('sidebarMenu');
+        const btnSetaMenu = document.getElementById('btnSetaMenu');
+
+        function alternarMenu() {
+            const recolhida = sidebarMenu.classList.toggle('recolhida');
+            btnSetaMenu.innerHTML = recolhida ? '▶' : '◀';
+            btnSetaMenu.style.left = recolhida ? '0px' : '280px';
+        }
+
+        if (window.innerWidth <= 900) {
+            sidebarMenu.classList.add('recolhida');
+            btnSetaMenu.innerHTML = '▶';
+            btnSetaMenu.style.left = '0px';
+        }
+    </script>
 </body>
 </html>
