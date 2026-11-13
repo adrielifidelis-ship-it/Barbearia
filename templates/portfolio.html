@@ -27,7 +27,6 @@
             border: 1px solid rgba(201, 168, 106, 0.3); 
             overflow: hidden; 
             box-shadow: 0 20px 40px rgba(0,0,0,0.8); 
-            position: relative;
         }
 
         .sidebar { 
@@ -39,7 +38,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: all 0.3s ease;
         }
 
         .sidebar-logo { 
@@ -217,58 +215,11 @@
             letter-spacing: 0.15em;
             margin-top: 6px;
         }
-
-        /* Setinha para recolher/expandir menu */
-        .btn-seta-menu {
-            position: fixed;
-            top: 14px;
-            left: 0;
-            width: 40px;
-            height: 44px;
-            padding: 0;
-            margin: 0;
-            border: none;
-            border-radius: 0 8px 8px 0;
-            background: #C9A86A;
-            color: #04120E;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.6);
-        }
-
-        .sidebar.recolhida {
-            display: none !important;
-        }
-
-        @media (max-width: 900px) {
-            body { padding: 0; }
-            .app-wrapper { border-radius: 0; border: none; min-height: 100vh; }
-            .btn-seta-menu { display: flex; }
-            .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100vh;
-                z-index: 9998;
-                box-shadow: 5px 0 25px rgba(0,0,0,0.9);
-            }
-            .main-content { padding: 65px 16px 30px 16px; width: 100%; }
-            .hero-banner { padding: 18px 16px; }
-            .hero-banner h1 { font-size: 1.6rem; }
-            .portfolio-grid { grid-template-columns: 1fr; }
-        }
     </style>
 </head>
 <body>
-    <button type="button" class="btn-seta-menu" id="btnSetaMenu" onclick="alternarMenu()" title="Expandir/Recolher Menu">◀</button>
-
     <div class="app-wrapper">
-        <div class="sidebar" id="sidebarMenu">
+        <div class="sidebar">
             <img src="{% static 'logo_imperial.jpg' %}" alt="Barbearia Imperial" class="sidebar-logo">
             <div class="side-label">Navegação</div>
             <a href="/" class="nav-item">📅 Agendar Horário</a>
@@ -317,100 +268,95 @@
         </div>
     </div>
 
+    <!-- MENU MOBILE RECOLHÍVEL LIMPO -->
+    <style>
+        #btnSetaImperial {
+            display: none !important;
+        }
+
+        @media screen and (max-width: 1024px) {
+            body {
+                padding: 0 !important;
+            }
+            .app-wrapper {
+                border-radius: 0 !important;
+                border: none !important;
+                min-height: 100vh !important;
+            }
+            #btnSetaImperial {
+                display: flex !important;
+                position: fixed !important;
+                top: 14px !important;
+                left: 0px !important;
+                width: 44px !important;
+                height: 44px !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: #C9A86A !important;
+                color: #04120E !important;
+                border: none !important;
+                border-radius: 0 8px 8px 0 !important;
+                font-size: 20px !important;
+                font-weight: bold !important;
+                align-items: center !important;
+                justify-content: center !important;
+                z-index: 999999 !important;
+                box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.8) !important;
+                cursor: pointer !important;
+            }
+            .sidebar {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 260px !important;
+                height: 100vh !important;
+                z-index: 999990 !important;
+                box-shadow: 5px 0 25px rgba(0, 0, 0, 0.95) !important;
+            }
+            .sidebar.menu-fechado {
+                display: none !important;
+            }
+            .main-content {
+                padding: 68px 16px 30px 16px !important;
+                width: 100% !important;
+            }
+            .grid-booking, .portfolio-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .filter-bar {
+                flex-direction: column !important;
+                align-items: stretch !important;
+            }
+        }
+    </style>
+
+    <button type="button" id="btnSetaImperial">▶</button>
+
     <script>
-        const sidebarMenu = document.getElementById('sidebarMenu');
-        const btnSetaMenu = document.getElementById('btnSetaMenu');
+        document.addEventListener("DOMContentLoaded", function() {
+            const sidebar = document.querySelector(".sidebar");
+            const btn = document.getElementById("btnSetaImperial");
+            if (!sidebar || !btn) return;
 
-        function alternarMenu() {
-            const recolhida = sidebarMenu.classList.toggle('recolhida');
-            btnSetaMenu.innerHTML = recolhida ? '▶' : '◀';
-            btnSetaMenu.style.left = recolhida ? '0px' : '280px';
-        }
+            if (window.innerWidth <= 1024) {
+                sidebar.classList.add("menu-fechado");
+                btn.textContent = "▶";
+                btn.style.left = "0px";
+            }
 
-        if (window.innerWidth <= 900) {
-            sidebarMenu.classList.add('recolhida');
-            btnSetaMenu.innerHTML = '▶';
-            btnSetaMenu.style.left = '0px';
-        }
+            btn.addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const fechado = sidebar.classList.toggle("menu-fechado");
+                if (fechado) {
+                    btn.textContent = "▶";
+                    btn.style.left = "0px";
+                } else {
+                    btn.textContent = "◀";
+                    btn.style.left = "260px";
+                }
+            });
+        });
     </script>
 </body>
 </html>
-<!-- MENU RECOLHÍVEL UNIVERSAL -->
-<style>
-    .btn-seta-imperial {
-        position: fixed !important;
-        top: 15px !important;
-        left: 0 !important;
-        width: 42px !important;
-        height: 44px !important;
-        background: #C9A86A !important;
-        color: #04120E !important;
-        border: none !important;
-        border-radius: 0 8px 8px 0 !important;
-        font-size: 18px !important;
-        font-weight: bold !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        z-index: 999999 !important;
-        cursor: pointer !important;
-        box-shadow: 2px 2px 12px rgba(0,0,0,0.8) !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-
-    .sidebar-oculta {
-        display: none !important;
-    }
-
-    @media screen and (max-width: 1024px) {
-        body { padding: 0 !important; }
-        .app-wrapper { border-radius: 0 !important; border: none !important; }
-        .sidebar {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            height: 100vh !important;
-            z-index: 999998 !important;
-            box-shadow: 5px 0 25px rgba(0,0,0,0.9) !important;
-        }
-        .main-content {
-            padding: 65px 15px 30px 15px !important;
-            width: 100% !important;
-        }
-        .grid-booking, .portfolio-grid {
-            grid-template-columns: 1fr !important;
-        }
-        .filter-bar {
-            flex-direction: column !important;
-            align-items: stretch !important;
-        }
-    }
-</style>
-
-<button type="button" class="btn-seta-imperial" id="btnSetaImperial" onclick="toggleSidebarImperial()">◀</button>
-
-<script>
-    (function() {
-        const sidebar = document.querySelector('.sidebar');
-        const btn = document.getElementById('btnSetaImperial');
-        if (!sidebar || !btn) return;
-
-        function atualizarPosicao() {
-            const fechada = sidebar.classList.contains('sidebar-oculta');
-            btn.innerHTML = fechada ? '▶' : '◀';
-            btn.style.left = fechada ? '0px' : (sidebar.offsetWidth || 280) + 'px';
-        }
-
-        window.toggleSidebarImperial = function() {
-            sidebar.classList.toggle('sidebar-oculta');
-            atualizarPosicao();
-        };
-
-        // Se for celular (qualquer orientação ou modo), inicia recolhido!
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 1024) {
-            sidebar.classList.add('sidebar-oculta');
-        }
-        atualizarPosicao();
-    })();
-</body>
